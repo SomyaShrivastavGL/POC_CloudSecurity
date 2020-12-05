@@ -1,0 +1,23 @@
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\bin\Debug\netcoreapp3.1\Business Api.exe
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\bin\Debug\netcoreapp3.1\Business Api.deps.json
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\bin\Debug\netcoreapp3.1\Business Api.runtimeconfig.json
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\bin\Debug\netcoreapp3.1\Business Api.runtimeconfig.dev.json
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\bin\Debug\netcoreapp3.1\Business Api.dll
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\bin\Debug\netcoreapp3.1\Business Api.pdb
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\obj\Debug\netcoreapp3.1\Business Api.csprojAssemblyReference.cache
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\obj\Debug\netcoreapp3.1\Business Api.AssemblyInfoInputs.cache
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\obj\Debug\netcoreapp3.1\Business Api.AssemblyInfo.cs
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\obj\Debug\netcoreapp3.1\Business Api.csproj.CoreCompileInputs.cache
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\obj\Debug\netcoreapp3.1\Business Api.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\obj\Debug\netcoreapp3.1\staticwebassets\Business Api.StaticWebAssets.Manifest.cache
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\obj\Debug\netcoreapp3.1\staticwebassets\Business Api.StaticWebAssets.xml
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\obj\Debug\netcoreapp3.1\scopedcss\bundle\Business Api.styles.css
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\obj\Debug\netcoreapp3.1\Business Api.RazorTargetAssemblyInfo.cache
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\obj\Debug\netcoreapp3.1\Business Api.dll
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\obj\Debug\netcoreapp3.1\Business Api.pdb
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\obj\Debug\netcoreapp3.1\Business Api.genruntimeconfig.cache
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\bin\Debug\netcoreapp3.1\Models.dll
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\bin\Debug\netcoreapp3.1\Models.pdb
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\obj\Debug\netcoreapp3.1\Business Api.csproj.CopyComplete

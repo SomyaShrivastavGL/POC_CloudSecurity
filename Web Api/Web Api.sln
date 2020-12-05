@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web Api", "Web Api\Web Api.csproj", "{B80D7A97-BBA9-450F-870B-34AF815FB3BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{7196DA32-E8F9-47A5-AA33-2AA9CD85C6EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business Api", "Business Api\Business Api.csproj", "{2871C1CC-749B-4A66-900D-5C2877BB9456}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B80D7A97-BBA9-450F-870B-34AF815FB3BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B80D7A97-BBA9-450F-870B-34AF815FB3BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B80D7A97-BBA9-450F-870B-34AF815FB3BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B80D7A97-BBA9-450F-870B-34AF815FB3BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7196DA32-E8F9-47A5-AA33-2AA9CD85C6EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7196DA32-E8F9-47A5-AA33-2AA9CD85C6EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7196DA32-E8F9-47A5-AA33-2AA9CD85C6EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7196DA32-E8F9-47A5-AA33-2AA9CD85C6EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2871C1CC-749B-4A66-900D-5C2877BB9456}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2871C1CC-749B-4A66-900D-5C2877BB9456}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2871C1CC-749B-4A66-900D-5C2877BB9456}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2871C1CC-749B-4A66-900D-5C2877BB9456}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1BCDABFB-F1A8-434A-A6DB-C8F789E8F714}
+	EndGlobalSection
+EndGlobal
