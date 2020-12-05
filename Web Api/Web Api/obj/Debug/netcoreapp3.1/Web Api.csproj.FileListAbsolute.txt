@@ -1,0 +1,23 @@
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\bin\Debug\netcoreapp3.1\Web Api.exe
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\bin\Debug\netcoreapp3.1\Web Api.deps.json
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\bin\Debug\netcoreapp3.1\Web Api.runtimeconfig.json
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\bin\Debug\netcoreapp3.1\Web Api.runtimeconfig.dev.json
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\bin\Debug\netcoreapp3.1\Web Api.dll
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\bin\Debug\netcoreapp3.1\Web Api.pdb
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\obj\Debug\netcoreapp3.1\Web Api.csprojAssemblyReference.cache
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\obj\Debug\netcoreapp3.1\Web Api.AssemblyInfoInputs.cache
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\obj\Debug\netcoreapp3.1\Web Api.AssemblyInfo.cs
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\obj\Debug\netcoreapp3.1\Web Api.csproj.CoreCompileInputs.cache
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\obj\Debug\netcoreapp3.1\Web Api.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\obj\Debug\netcoreapp3.1\staticwebassets\Web Api.StaticWebAssets.Manifest.cache
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\obj\Debug\netcoreapp3.1\staticwebassets\Web Api.StaticWebAssets.xml
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\obj\Debug\netcoreapp3.1\scopedcss\bundle\Web Api.styles.css
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\obj\Debug\netcoreapp3.1\Web Api.RazorTargetAssemblyInfo.cache
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\obj\Debug\netcoreapp3.1\Web Api.dll
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\obj\Debug\netcoreapp3.1\Web Api.pdb
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\obj\Debug\netcoreapp3.1\Web Api.genruntimeconfig.cache
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\bin\Debug\netcoreapp3.1\Models.dll
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\bin\Debug\netcoreapp3.1\Models.pdb
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\obj\Debug\netcoreapp3.1\Web Api.csproj.CopyComplete

@@ -1,0 +1,9 @@
+C:\Users\harjot.singh1\source\repos\Web Api\Models\bin\Debug\netstandard2.0\Models.deps.json
+C:\Users\harjot.singh1\source\repos\Web Api\Models\bin\Debug\netstandard2.0\Models.dll
+C:\Users\harjot.singh1\source\repos\Web Api\Models\bin\Debug\netstandard2.0\Models.pdb
+C:\Users\harjot.singh1\source\repos\Web Api\Models\obj\Debug\netstandard2.0\Models.csprojAssemblyReference.cache
+C:\Users\harjot.singh1\source\repos\Web Api\Models\obj\Debug\netstandard2.0\Models.AssemblyInfoInputs.cache
+C:\Users\harjot.singh1\source\repos\Web Api\Models\obj\Debug\netstandard2.0\Models.AssemblyInfo.cs
+C:\Users\harjot.singh1\source\repos\Web Api\Models\obj\Debug\netstandard2.0\Models.csproj.CoreCompileInputs.cache
+C:\Users\harjot.singh1\source\repos\Web Api\Models\obj\Debug\netstandard2.0\Models.dll
+C:\Users\harjot.singh1\source\repos\Web Api\Models\obj\Debug\netstandard2.0\Models.pdb
