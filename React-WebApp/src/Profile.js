@@ -20,7 +20,11 @@ class Profile extends Component {
 
       Password: '',
 
-      Department: ''
+      Department: '',
+
+      ProfilePic: null,
+
+      Resume: null
 
     }
 
@@ -38,6 +42,8 @@ class Profile extends Component {
 
     this.update = this.update.bind(this);
 
+    this.handleProfilePicChange = this.handleProfilePicChange.bind(this);
+    this.handleResumeChange = this.handleResumeChange.bind(this);
   }
 
   Email(event) {
@@ -72,6 +78,14 @@ class Profile extends Component {
 
   }
 
+  ProfilePic(event){
+    this.setState({ProfilePic: event.target.ProfilePic})
+  }
+
+  Resume(event){
+    this.setState({Resume: event.target.Resume})
+  }
+
   getEmployee(event) {
 
 
@@ -99,6 +113,8 @@ class Profile extends Component {
                 this.Password = Result.Password.bind(this);            
                 this.Department = Result.Department.bind(this);            
                 this.City = Result.City.bind(this);
+                this.ProfilePic = Result.City.bind(this);
+                this.Resume = Result.Resume.bind(this);
                 this.props.history.push("/Dashboard");
         }
         else
@@ -126,8 +142,6 @@ class Profile extends Component {
 
       body: JSON.stringify({
 
-
-
         EmployeeName: this.state.EmployeeName,
 
         Password: this.state.Password,
@@ -136,8 +150,11 @@ class Profile extends Component {
 
         City: this.state.City,
 
-        Department: this.state.Department
+        Department: this.state.Department,
 
+        ProfilePic: this.state.ProfilePic,
+
+        Resume: this.state.Resume
       })
 
     }).then((Response) => Response.json())
@@ -156,22 +173,47 @@ class Profile extends Component {
 
   }
  
+  handleProfilePicChange(event) {
+    if(event.target.files[0] !=null && event.target.files[0]!= undefined)
+    {
+      this.setState({
+        ProfilePic: URL.createObjectURL(event.target.files[0])
+      })
+    }
+    else
+    this.setState({
+      ProfilePic: null
+    })
+    
+  }
+
+  handleResumeChange(event) {
+    if(event.target.files[0] !=null && event.target.files[0]!= undefined)
+    {
+      this.setState({
+        Resume: URL.createObjectURL(event.target.files[0])
+      })
+    }
+    else
+    this.setState({
+      Resume: null
+    })
+  }
+
   render() {
     this.getEmployee();
 
     return (
 
-      <div className="app flex-row align-items-center">
-
         <Container>
 
           <Row className="justify-content-center">
 
-            <Col md="9" lg="7" xl="6">
+            <Col>
 
-              <Card className="mx-4">
+              <Card className="CardProfile">
 
-                <CardBody className="p-4">
+                <CardBody>
 
                   <Form>
 
@@ -181,7 +223,8 @@ class Profile extends Component {
 
                     </div>
                     <table>
-                      <tr className="tRowProfile">
+                      
+                      <tr>
                         <td>
                         Employee Name :
                         </td>                        
@@ -189,7 +232,7 @@ class Profile extends Component {
                         <Input type="text"  onChange={this.EmployeeName} placeholder="Enter Employee Name" />
                         </td>
                       </tr>
-                      <tr className="tRowProfile">
+                      <tr>
                         <td>
                         Email :
                         </td>                        
@@ -197,7 +240,7 @@ class Profile extends Component {
                         <Input type="text"  onChange={this.Email} placeholder="Enter Email" />
                         </td>
                       </tr>
-                      <tr className="tRowProfile">
+                      <tr>
                         <td>
                         Password :
                         </td>                        
@@ -205,7 +248,7 @@ class Profile extends Component {
                         <Input type="password"  onChange={this.Password} placeholder="Enter Password" />
                         </td>
                       </tr>
-                      <tr className="tRowProfile">
+                      <tr>
                         <td>
                         City :
                         </td>                        
@@ -213,30 +256,58 @@ class Profile extends Component {
                         <Input type="text"  onChange={this.City} placeholder="Enter City" />
                         </td>
                       </tr>
-                      <tr className="tRowProfile">
+                      <tr>
                         <td>
                         Department :
                         </td>                        
                         <td>
                         <Input type="text"  onChange={this.Department} placeholder="Enter Department" />
                         </td>
-                      </tr>
-                    </table>                   
-                    
+                      </tr>  
+                      <tr>
+                        <td>
+                        Profile Picture :
+                        </td>                        
+                        <td>
+                        <input type="file" onChange={this.handleProfilePicChange}/>
+                        </td>
+                      </tr> 
+                      <tr>
+                      <td>
+                        Resume :
+                        </td>                        
+                        <td>
+                        <input type="file" onChange={this.handleResumeChange}/> 
+                        </td>
+                      </tr>                   
+
+                    </table>                                                                                                   
                     <Link onClick={this.update} to="/Login" className="actionBtn">Update Profile</Link>                                           
                   </Form>
-
                 </CardBody>
+              </Card>              
+            </Col>
+            <Card className="CardDocuments">                    
+                <CardBody>
+                    <div  className="sub-heading">
 
+                    Documents
+
+                    </div>
+                    <div className="centerText">
+                      Profile Picture:<br/>
+                      <img className="ProfilePicture" src={this.state.ProfilePic}/><br/>
+                      <br/><br/><br/><br/>
+                      Resume: {this.state.Resume != null? 'Available':'Not Available'}                      
+                    </div>                    
+                </CardBody>
               </Card>
-
+            <Col>
             </Col>
 
           </Row>
 
-        </Container>
-
-      </div>
+        </Container>  
 
     );
 

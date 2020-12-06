@@ -13,9 +13,8 @@ code {
 }
 
 .container{
-  margin-top: 100px;
-  background-color: azure;
-  height: 500px;
+  margin-top: 50px;
+  background-color: azure;   
 }
 
 .headingBar{
@@ -51,4 +50,29 @@ td{
   color: azure;
   text-align: center;
   font-size: 25px;  
+}
+
+.ProfilePicture{
+  height: 200px;
+  width :180px;  
+}
+.centerText{
+  text-align: center;
+}
+
+input[type="file"] {
+  border: 1px solid lightgray;
+  white-space: normal;
+  word-wrap: break-word;
+  width: 250px;
+  overflow: auto;
+}
+
+.CardProfile{
+  width: 500px;
+  margin-left: 100px;
+}
+
+.CardDocuments{
+  width: 300px;
 }
