@@ -9,18 +9,26 @@ class Reg extends Component {
 
     super();
 
+    sessionStorage.removeItem('currentUser');
+    sessionStorage.setItem('currentUser',"");
 
     this.state = {
 
       EmployeeName: '',
 
-      City: '',
-
       Email: '',
 
       Password: '',
 
-      Department: ''
+      PAN: '',
+      
+      isValidName: true,
+
+      isValidEmail: true,
+
+      isValidPassword: true,
+
+      isValidPAN: true    
 
     }
 
@@ -32,12 +40,11 @@ class Reg extends Component {
 
     this.Password = this.Password.bind(this);
 
-    this.Department = this.Department.bind(this);
-
-    this.City = this.City.bind(this);
+    this.PAN = this.PAN.bind(this);
 
     this.register = this.register.bind(this);
 
+    this.handleSignUp = this.handleSignUp.bind(this);
   }
 
   Email(event) {
@@ -47,9 +54,9 @@ class Reg extends Component {
   }
 
 
-  Department(event) {
+  PAN(event) {
 
-    this.setState({ Department: event.target.value })
+    this.setState({ PAN: event.target.value })
 
   }
 
@@ -60,18 +67,49 @@ class Reg extends Component {
 
   }
 
-  City(event) {
-
-    this.setState({ City: event.target.value })
-
-  }
-
   EmployeeName(event) {
 
     this.setState({ EmployeeName: event.target.value })
 
   }
 
+  handleSignUp(event) {       
+       
+    if(this.state.EmployeeName!=undefined && this.state.EmployeeName != "" && this.state.EmployeeName.match(/^[a-zA-Z ]*$/)){    
+      this.state.isValidName= true;
+    } 
+    else{
+        this.state.isValidName= false;
+    }  
+    if(this.state.Email!=undefined && this.state.Email != "" && this.state.Email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/)){    
+      this.state.isValidEmail= true;
+    } 
+    else{
+        this.state.isValidEmail= false;
+    }  
+    if(this.state.Email!=undefined && this.state.Email != "" && this.state.Email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/)){    
+        this.state.isValidEmail= true;
+    } 
+    else{
+        this.state.isValidEmail= false;
+    }  
+    if(this.state.Password!=undefined && this.state.Password != "" && this.state.Password.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/)){                            
+        this.state.isValidPassword= true;      
+    } 
+    else
+    {
+        this.state.isValidPassword= false;      
+    }          
+    if(this.state.PAN!=undefined && this.state.PAN != "" && this.state.PAN.match(/^([a-zA-Z]{5})([0-9]{4})([a-zA-Z]{1})$/))
+      this.state.isValidPAN= true;  
+    else{
+        this.state.isValidPAN= false;
+    } 
+    if(this.state.isValidName && this.state.isValidEmail && this.state.isValidPassword &&
+      this.state.isValidPAN){
+       this.register();
+    }    
+  }
 
   register(event) {
 
@@ -98,9 +136,7 @@ class Reg extends Component {
 
         Email: this.state.Email,
 
-        City: this.state.City,
-
-        Department: this.state.Department
+        PAN: this.state.PAN
 
       })
 
@@ -110,12 +146,14 @@ class Reg extends Component {
 
         if (Result.Status === 'Success')
 
-                this.props.history.push("/Dashboard");
+                this.props.history.push("/Login");
 
         else
 
           alert('Sorrrrrry !!!! Un-authenticated User !!!!!')
 
+      }, (error)=>{
+        this.props.history.push("/Login");
       })
 
   }
@@ -144,38 +182,20 @@ class Reg extends Component {
 
                       Sign Up
                     </div>
-
-                    <InputGroup className="mb-3">
-
+                   
                       <Input type="text"  onChange={this.EmployeeName} placeholder="Enter Employee Name" />
-
-                    </InputGroup>
-
-                    <InputGroup className="mb-3">
+                      <label className="error">{this.state.isValidName?"":"Please enter a valid Name"}</label>
 
                       <Input type="text"  onChange={this.Email} placeholder="Enter Email" />
-
-                    </InputGroup>
-
-                    <InputGroup className="mb-3">
+                      <label className="error">{this.state.isValidEmail?"":"Please enter a valid Email"}</label>                   
 
                       <Input type="password"  onChange={this.Password} placeholder="Enter Password" />
-
-                    </InputGroup>
-
-                    <InputGroup className="mb-4">
-
-                      <Input type="text"  onChange={this.City} placeholder="Enter City" />
-
-                    </InputGroup>
-
-                    <InputGroup className="mb-4">
-
-                      <Input type="text"  onChange={this.Department} placeholder="Enter Department" />
-
-                    </InputGroup>
+                      <label className="error">{this.state.isValidPassword?"":"Please enter a valid Password"}</label>                    
+                      
+                      <Input type="text"  onChange={this.PAN} placeholder="Enter PAN" />        
+                      <label className="error">{this.state.isValidPAN?"":"Please enter a valid PAN Name"}</label>         
                     
-                    <Link onClick={this.register} to="/Login" className="actionBtn">Create Profile</Link>       
+                    <Link onClick={this.handleSignUp} className="actionBtn">Create Profile</Link>       
                   </Form>
 
                 </CardBody>

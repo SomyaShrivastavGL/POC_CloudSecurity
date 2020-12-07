@@ -8,23 +8,29 @@ class Profile extends Component {
   constructor() {
 
     super();
-
-
+    this.getEmployee();
+    
     this.state = {
 
       EmployeeName: '',
-
-      City: '',
 
       Email: '',
 
       Password: '',
 
-      Department: '',
+      PAN: '',
 
-      ProfilePic: null,
+      ProfilePic: null,      
 
-      Resume: null
+      isValidName: true,
+
+      isValidEmail: true,
+
+      isValidPassword: true,      
+
+      isValidPAN: true,
+
+      isValiProfilePic: true    
 
     }
 
@@ -36,60 +42,54 @@ class Profile extends Component {
 
     this.Password = this.Password.bind(this);
 
-    this.Department = this.Department.bind(this);
-
-    this.City = this.City.bind(this);
+    this.PAN = this.PAN.bind(this);    
 
     this.update = this.update.bind(this);
 
     this.handleProfilePicChange = this.handleProfilePicChange.bind(this);
-    this.handleResumeChange = this.handleResumeChange.bind(this);
+        
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.getEmployee = this.getEmployee.bind(this);
   }
-
+  
   Email(event) {
 
-    this.setState({ Email: event.target.value })
+    this.setState({ Email: event.target.value });
 
   }
 
 
-  Department(event) {
+  PAN(event) {
 
-    this.setState({ Department: event.target.value })
+    this.setState({ PAN: event.target.value });
 
   }
 
 
   Password(event) {
 
-    this.setState({ Password: event.target.value })
+    this.setState({ Password: event.target.value });
 
-  }
+  }  
 
-  City(event) {
-
-    this.setState({ City: event.target.value })
-
-  }
-
-  EmployeeName(event) {
-
-    this.setState({ EmployeeName: event.target.value })
+  EmployeeName(event) {    
+    this.setState({ EmployeeName: event.target.value });
 
   }
 
   ProfilePic(event){
-    this.setState({ProfilePic: event.target.ProfilePic})
+    this.setState({ProfilePic: event.target.ProfilePic});
   }
-
-  Resume(event){
-    this.setState({Resume: event.target.Resume})
-  }
-
-  getEmployee(event) {
-
-
-    fetch('http://localhost:51282/Api/login/GetEmployee', {
+ 
+  getEmployee(event) {    
+    var currentUser = sessionStorage.getItem('currentUser');
+    var isUserLoggedIn = sessionStorage.getItem('isUserLoggedIn');
+    if(isUserLoggedIn == "false")
+    {
+      alert("Please Login");
+      this.props.history.push("/Login");
+    }
+    fetch('http://localhost:51282/Api/login/GetEmployee?email='+currentUser, {
 
       method: 'get',
 
@@ -99,7 +99,7 @@ class Profile extends Component {
 
         'Content-Type': 'application/json'
 
-      }     
+      }      
 
     }).then((Response) => Response.json())
 
@@ -111,11 +111,8 @@ class Profile extends Component {
                 this.Password = Result.Password.bind(this);            
                 this.EmployeeName = Result.EmployeeName.bind(this);            
                 this.Password = Result.Password.bind(this);            
-                this.Department = Result.Department.bind(this);            
-                this.City = Result.City.bind(this);
-                this.ProfilePic = Result.City.bind(this);
-                this.Resume = Result.Resume.bind(this);
-                this.props.history.push("/Dashboard");
+                this.PAN = Result.PAN.bind(this);                           
+                this.ProfilePic = Result.ProfilePic.bind(this);                                            
         }
         else
 
@@ -126,8 +123,7 @@ class Profile extends Component {
   }
 
   update(event) {
-
-
+    
     fetch('http://localhost:51282/Api/login/UpdateEmployee', {
 
       method: 'put',
@@ -148,13 +144,9 @@ class Profile extends Component {
 
         Email: this.state.Email,
 
-        City: this.state.City,
+        PAN: this.state.PAN,
 
-        Department: this.state.Department,
-
-        ProfilePic: this.state.ProfilePic,
-
-        Resume: this.state.Resume
+        ProfilePic: this.state.ProfilePic        
       })
 
     }).then((Response) => Response.json())
@@ -163,12 +155,14 @@ class Profile extends Component {
 
         if (Result.Status === 'Success')
 
-                this.props.history.push("/Dashboard");
+          this.props.history.push("/Dashboard");
 
         else
 
           alert('Sorrrrrry !!!! Un-authenticated User !!!!!')
 
+      },(error)=>{
+        this.props.history.push("/Login");
       })
 
   }
@@ -179,30 +173,52 @@ class Profile extends Component {
       this.setState({
         ProfilePic: URL.createObjectURL(event.target.files[0])
       })
+      this.isValiProfilePic = true;
     }
-    else
-    this.setState({
-      ProfilePic: null
-    })
-    
-  }
-
-  handleResumeChange(event) {
-    if(event.target.files[0] !=null && event.target.files[0]!= undefined)
-    {
+    else{
       this.setState({
-        Resume: URL.createObjectURL(event.target.files[0])
+        ProfilePic: null
       })
+      this.isValiProfilePic = false;
     }
+  }  
+
+  handleUpdate(event) {              
+    if(this.state.EmployeeName!=undefined && this.state.EmployeeName != "" && this.state.EmployeeName.match(/^[a-zA-Z ]*$/))
+      this.state.isValidName= true;   
     else
-    this.setState({
-      Resume: null
-    })
+      this.state.isValidName= false;
+
+    if(this.state.Email!=undefined && this.state.Email != "" && this.state.Email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/))
+      this.state.isValidEmail= true;    
+    else
+      this.state.isValidEmail= false; 
+
+    if(this.state.Email!=undefined && this.state.Email != "" && this.state.Email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/))
+      this.state.isValidEmail= true;    
+    else
+      this.state.isValidEmail= false;   
+
+    if(this.state.Password!=undefined && this.state.Password != "" && this.state.Password.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/))
+      this.state.isValidPassword= true;          
+    else
+      this.state.isValidPassword= false;                   
+    if(this.state.PAN!=undefined && this.state.PAN != "" && this.state.PAN.match(/^([a-zA-Z]{5})([0-9]{4})([a-zA-Z]{1})$/))
+      this.state.isValidPAN= true;  
+    else
+      this.state.isValidPAN= false;    
+    if(this.state.ProfilePic != undefined && this.state.ProfilePic != "")
+      this.state.isValiProfilePic =true;    
+    else
+    this.state.isValiProfilePic = false;
+    if(this.state.isValidName && this.state.isValidEmail && this.state.isValidPassword &&
+      this.state.isValidPAN && this.state.isValiProfilePic){
+       this.update();
+    }    
   }
-
-  render() {
-    this.getEmployee();
-
+  
+  render() {      
+    
     return (
 
         <Container>
@@ -228,8 +244,9 @@ class Profile extends Component {
                         <td>
                         Employee Name :
                         </td>                        
-                        <td>
-                        <Input type="text"  onChange={this.EmployeeName} placeholder="Enter Employee Name" />
+                        <td>                        
+                        <Input type="text"  value={this.state.EmployeeName} onChange={this.EmployeeName} placeholder="Enter Employee Name"></Input>                      
+                        <label className="error">{this.state.isValidName?"":"Please enter a valid Name"}</label>
                         </td>
                       </tr>
                       <tr>
@@ -238,6 +255,7 @@ class Profile extends Component {
                         </td>                        
                         <td>
                         <Input type="text"  onChange={this.Email} placeholder="Enter Email" />
+                        <label className="error">{this.state.isValidEmail?"":"Please enter a valid Email"}</label>
                         </td>
                       </tr>
                       <tr>
@@ -246,22 +264,16 @@ class Profile extends Component {
                         </td>                        
                         <td>
                         <Input type="password"  onChange={this.Password} placeholder="Enter Password" />
+                        <label className="error">{this.state.isValidPassword?"":"Please enter a valid Password"}</label>
                         </td>
-                      </tr>
+                      </tr>                      
                       <tr>
                         <td>
-                        City :
+                        PAN :
                         </td>                        
                         <td>
-                        <Input type="text"  onChange={this.City} placeholder="Enter City" />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                        Department :
-                        </td>                        
-                        <td>
-                        <Input type="text"  onChange={this.Department} placeholder="Enter Department" />
+                        <Input type="text"  onChange={this.PAN} placeholder="Enter PAN" />
+                        <label className="error">{this.state.isValidPAN?"":"Please enter a valid PAN Name"}</label>
                         </td>
                       </tr>  
                       <tr>
@@ -270,19 +282,11 @@ class Profile extends Component {
                         </td>                        
                         <td>
                         <input type="file" onChange={this.handleProfilePicChange}/>
+                        <label className="error">{this.state.isValiProfilePic?"":"Please enter a valid Profile Picture file"}</label>
                         </td>
-                      </tr> 
-                      <tr>
-                      <td>
-                        Resume :
-                        </td>                        
-                        <td>
-                        <input type="file" onChange={this.handleResumeChange}/> 
-                        </td>
-                      </tr>                   
-
+                      </tr>                       
                     </table>                                                                                                   
-                    <Link onClick={this.update} to="/Login" className="actionBtn">Update Profile</Link>                                           
+                    <Link onClick={this.handleUpdate} className="actionBtn">Update Profile</Link>                                           
                   </Form>
                 </CardBody>
               </Card>              
@@ -297,8 +301,7 @@ class Profile extends Component {
                     <div className="centerText">
                       Profile Picture:<br/>
                       <img className="ProfilePicture" src={this.state.ProfilePic}/><br/>
-                      <br/><br/><br/><br/>
-                      Resume: {this.state.Resume != null? 'Available':'Not Available'}                      
+                     
                     </div>                    
                 </CardBody>
               </Card>

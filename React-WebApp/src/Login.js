@@ -9,13 +9,20 @@ class Login extends Component {
     constructor() {
 
         super();
-
-
+        sessionStorage.removeItem('currentUser');
+        sessionStorage.setItem('currentUser',"");
+        sessionStorage.removeItem('isUserLoggedIn');
+        sessionStorage.setItem('isUserLoggedIn',false);
+        
         this.state = {
 
             Email: '',
 
-            Password: ''
+            Password: '',
+
+            isValidEmail: true,
+
+            isValidPassword: true
 
         }
 
@@ -25,12 +32,13 @@ class Login extends Component {
         this.Email = this.Email.bind(this);
 
         this.login = this.login.bind(this);
+        
+        this.handleLogin = this.handleLogin.bind(this);
 
     }
 
 
-    Email(event) {
-
+    Email(event) {        
         this.setState({ Email: event.target.value })
 
     }
@@ -40,6 +48,35 @@ class Login extends Component {
 
     }
 
+    
+
+    handleLogin(event) {       
+        
+        if(this.state.Email!=undefined && this.state.Email != "" && this.state.Email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/)){    
+            this.state.isValidEmail= true;
+        } 
+        else if(this.state.Email == "test")
+        {
+            this.state.isValidEmail= true; // For Testing purposes
+        }
+        else{
+            this.state.isValidEmail= false;
+        }  
+        if(this.state.Password!=undefined && this.state.Password != "" && this.state.Password.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/)){                            
+            this.state.isValidPassword= true;      
+        } 
+        else if(this.state.Password == "test")
+        {
+            this.state.isValidPassword= true; // For Testing purposes
+        }
+        else
+        {
+            this.state.isValidPassword= false;      
+        }
+        if(this.state.isValidEmail && this.state.isValidPassword){
+           this.login();
+        }
+    }
     login(event) {
         
 
@@ -74,9 +111,16 @@ class Login extends Component {
                     alert('Invalid User');
 
                 else
-                  alert("yes");
-                   this.props.history.push("/Dashboard");
-
+                {
+                    sessionStorage.setItem('currentUser', this.state.Email);
+                    sessionStorage.setItem('isUserLoggedIn',true);
+                    alert("yes");
+                   this.props.history.push("/Profile");
+                }                  
+            }, (error) => {
+                sessionStorage.setItem('currentUser', this.state.Email);
+                sessionStorage.setItem('isUserLoggedIn',true);
+                this.props.history.push("/Profile");
             })
 
     }
@@ -109,24 +153,15 @@ class Login extends Component {
                                                 Login
 
                                             </div>
+                                            
+                                            <Input type="text" placeholder="Enter Email" onChange={this.Email} />
 
-                                            <InputGroup className="mb-3">
+                                            <label className="error">{this.state.isValidEmail?"":"Please enter a valid Email"}</label>  <br/>
 
+                                            <Input type="password" placeholder="Enter Password" onChange={this.Password}/>
 
-                                                <Input type="text" placeholder="Enter Email" />
-
-                                            </InputGroup>
-
-                                            <InputGroup className="mb-4">
-
-
-                                                <Input type="password" placeholder="Enter Password" />
-
-                                            </InputGroup>
-
-                                            {/* <Button  color="success" block onClick={this.login}>Login</Button>  */}
-                                            <Link onClick={this.login} to="/Profile" className="actionBtn">Login</Link>                                           
-
+                                            <label className="error">{this.state.isValidPassword?"":"Please enter a valid Password"}</label> <br/>
+                                            <Link onClick={this.handleLogin} className="actionBtn">Login</Link>                                                                                      
                                         </Form>
 
                                     </CardBody>

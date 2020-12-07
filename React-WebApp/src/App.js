@@ -38,11 +38,10 @@ function App() {
 
               </li>  
 
-              <li className="nav-item">    
+              {/* <li className="nav-item">                  
+                <Link to={'/Profile'} className="nav-link">Profile</Link>                    
 
-                <Link to={'/Profile'} className="nav-link">Profile</Link>    
-
-              </li>    
+              </li>     */}
 
 
             </ul>    
