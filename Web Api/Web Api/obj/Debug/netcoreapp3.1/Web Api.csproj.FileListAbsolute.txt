@@ -21,3 +21,7 @@ C:\Users\harjot.singh1\source\repos\Web Api\Web Api\obj\Debug\netcoreapp3.1\Web 
 C:\Users\harjot.singh1\source\repos\Web Api\Web Api\bin\Debug\netcoreapp3.1\Models.dll
 C:\Users\harjot.singh1\source\repos\Web Api\Web Api\bin\Debug\netcoreapp3.1\Models.pdb
 C:\Users\harjot.singh1\source\repos\Web Api\Web Api\obj\Debug\netcoreapp3.1\Web Api.csproj.CopyComplete
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\bin\Debug\netcoreapp3.1\System.Net.Http.Extensions.dll
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\bin\Debug\netcoreapp3.1\System.Net.Http.Formatting.dll
+C:\Users\harjot.singh1\source\repos\Web Api\Web Api\bin\Debug\netcoreapp3.1\System.Net.Http.Primitives.dll

@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "sWUdtC6x1LCRvAV1FilI7iz/5cCrzo8QmlCgnDtTXrQSCcjBcLypqQpz3ADT4RXOpaHiWGHHO/yB8AILFa9XUA==",
+  "dgSpecHash": "IhA6VEkwFc+MINJAVpUHZR6lAHplLBVgZ9TkLOKzyi/YntO0fc4tR7Df+BPTQ1tneedfeAeFjA7DUag3cEazCg==",
   "success": true,
   "projectFilePath": "C:\\Users\\harjot.singh1\\source\\repos\\Web Api\\Business Api\\Business Api.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\harjot.singh1\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
   "logs": []
 }

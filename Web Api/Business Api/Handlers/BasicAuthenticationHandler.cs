@@ -23,6 +23,8 @@ namespace Web_Api.Handlers
                 {
                     return AuthenticateResult.Fail("Authorization header was not found");
                 }
+
+
                 var authenticationHeaderValue = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
                 var bytes = Convert.FromBase64String(authenticationHeaderValue.Parameter);
                 string[] credentials = Encoding.UTF8.GetString(bytes).Split(":");

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Claims;
@@ -23,6 +24,15 @@ namespace Web_Api.Handlers
                 {
                     return AuthenticateResult.Fail("Authorization header was not found");
                 }
+                var ms = new MemoryStream();
+                await Request.Body.CopyToAsync(ms);
+                ms.Seek(0, SeekOrigin.Begin);
+
+                var body = await new StreamReader(ms).ReadToEndAsync();
+               var content = Encoding.UTF8.GetBytes(body);
+
+                ms.Seek(0, SeekOrigin.Begin);
+                Request.Body = ms;
                 var authenticationHeaderValue = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
                 var bytes = Convert.FromBase64String(authenticationHeaderValue.Parameter);
                 string[] credentials = Encoding.UTF8.GetString(bytes).Split(":");

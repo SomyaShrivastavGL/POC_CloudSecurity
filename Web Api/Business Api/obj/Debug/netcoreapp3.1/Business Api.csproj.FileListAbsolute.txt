@@ -21,3 +21,4 @@ C:\Users\harjot.singh1\source\repos\Web Api\Business Api\obj\Debug\netcoreapp3.1
 C:\Users\harjot.singh1\source\repos\Web Api\Business Api\bin\Debug\netcoreapp3.1\Models.dll
 C:\Users\harjot.singh1\source\repos\Web Api\Business Api\bin\Debug\netcoreapp3.1\Models.pdb
 C:\Users\harjot.singh1\source\repos\Web Api\Business Api\obj\Debug\netcoreapp3.1\Business Api.csproj.CopyComplete
+C:\Users\harjot.singh1\source\repos\Web Api\Business Api\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
