@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "PJ9hz/gLaW0YGT5AJpMU8RkG7H/lm7gh4u1nGsWLwl8z2M69tj1+NedPIC8bUrazTV4IsM+2zZDn/qOL7S2ScA==",
+  "dgSpecHash": "cI7r+VGKiLbZw2rBEAIDUDezkogFuNrriHV52VbDYa+81aPsSZvIYwkExGmh1c2ZsGundGtP2hDd3ahJthu0Nw==",
   "success": true,
   "projectFilePath": "C:\\Users\\harjot.singh1\\source\\repos\\Web Api\\Models\\Models.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\harjot.singh1\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Users\\harjot.singh1\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+    "C:\\Users\\harjot.singh1\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\harjot.singh1\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
   ],
   "logs": []
 }
