@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web Api", "Web Api\Web Api.csproj", "{B80D7A97-BBA9-450F-870B-34AF815FB3BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web Api", "Web Api\Web Api.csproj", "{B80D7A97-BBA9-450F-870B-34AF815FB3BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{7196DA32-E8F9-47A5-AA33-2AA9CD85C6EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{7196DA32-E8F9-47A5-AA33-2AA9CD85C6EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business Api", "Business Api\Business Api.csproj", "{2871C1CC-749B-4A66-900D-5C2877BB9456}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business Api", "Business Api\Business Api.csproj", "{2871C1CC-749B-4A66-900D-5C2877BB9456}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBLayer", "DBLayer\DBLayer.csproj", "{06F69D2D-3B23-457E-A575-8FDE28D7BCFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{2871C1CC-749B-4A66-900D-5C2877BB9456}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2871C1CC-749B-4A66-900D-5C2877BB9456}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2871C1CC-749B-4A66-900D-5C2877BB9456}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06F69D2D-3B23-457E-A575-8FDE28D7BCFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06F69D2D-3B23-457E-A575-8FDE28D7BCFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06F69D2D-3B23-457E-A575-8FDE28D7BCFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06F69D2D-3B23-457E-A575-8FDE28D7BCFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
