@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Models.Data
 {
     public class Employee
     {
-        public int ID { get; set; }
         public string Name { get; set; }
-        public byte[] PAN { get; set; }
+        public string PAN { get; set; }
+        [Key]
         public string Email { get; set; }
         public byte[] Password { get; set; }
         public string ProfilePicturePath { get; set; }

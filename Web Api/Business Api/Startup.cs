@@ -12,6 +12,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Web_Api.Handlers;
+using DBLayer.Repo.Implementation;
+using DBLayer.Repo.Interfaces;
+using DBLayer;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business_Api
 {
@@ -30,6 +34,9 @@ namespace Business_Api
             services.AddControllers();
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+            services.AddDbContextPool<EmployeeDBContext>(
+           options => options.UseSqlServer(Configuration.GetConnectionString("EmployeeDBConnection"), b => b.MigrationsAssembly("Business Api")));
+            services.AddTransient<IEmployeeRepo, EmployeeRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
