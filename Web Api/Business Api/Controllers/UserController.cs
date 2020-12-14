@@ -9,6 +9,10 @@ using System.Net;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using DBLayer.Repo.Implementation;
+using Models.Data;
+using DBLayer.Repo.Interfaces;
+using Newtonsoft.Json;
 
 namespace Business_Api.Controllers
 {
@@ -17,98 +21,221 @@ namespace Business_Api.Controllers
     [ApiController]
     public class UserController:ControllerBase
     {
-        private const int SaltSize = 16;
+        private IEmployeeRepo _employeeRepo;
+        public UserController(IEmployeeRepo employeeRepo)
+        {
+            _employeeRepo = employeeRepo;
+        }
 
         /// <summary>
         /// Size of hash.
         /// </summary>
         private const int HashSize = 20;
         [HttpGet("GetEmployees")]
-        public  Task<ActionResult<IEnumerable<Users>>> GetEmployees() 
+        public async  Task<ActionResult<IEnumerable<Employee>>> GetEmployees() 
         {
-            return null;
+           var employeeDetails= await _employeeRepo.GetAll();
+            return employeeDetails.ToList();
         }
 
         [HttpPost("GetEmployee")]
-        public string GetEmployee(string email)
+        public async Task<ActionResult<Employee>> GetEmployee(string email)
         {
-            return null;
+            var employeeDetail = await _employeeRepo.GetEmployee(email);
+            return employeeDetail;
+        }
+
+        [HttpPost("LoginEmployee")]
+        public async Task<ActionResult<HttpStatusCode>> LoginEmployee(Users user)
+        {
+            var employeeDetail = await _employeeRepo.GetEmployee(user.Email);
+            if (employeeDetail.IsActive)
+            {
+                var password = DecryptPassword(employeeDetail.Password);
+
+                if (password == user.Password)
+                {
+                    return HttpStatusCode.OK;
+                }
+            }
+
+
+
+            return HttpStatusCode.NotFound;
         }
 
         [HttpPost("AddEmployee")]
-        public Task<ActionResult<IEnumerable<Users>>> SaveUser(Users user)
+        public async Task<ActionResult<int>> SaveUser(Users user)
         {
-           var hash= Hash(user.Password, 10000);
-            return null;
+            try
+            {
+                Employee employee = new Employee();
+                employee.Name = user.EmployeeName;
+                employee.Password = EncryptedPassword(user.Password);
+                employee.Email = user.Email;
+                employee.CreationTimeStamp = DateTime.UtcNow;
+                employee.IsActive = true;
+                employee.IsLocked = false;
+                employee.PAN = user.PAN;
+                employee.ProfilePicturePath = user.ProfilePicture;
+                var hasAdded = await _employeeRepo.Add(employee);
+
+                if (hasAdded > 0)
+                {
+                    return hasAdded;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return 0;
         }
 
         [HttpPost("UpdateEmployee")]
-        public Task<ActionResult<IEnumerable<Users>>> UpdateEmployee(Users user)
+        public async Task<ActionResult<int>> UpdateEmployee(Users user)
         {
-            var hash = Hash(user.Password, 10000);
-            return null;
-        }
-
-        public static string Hash(string password, int iterations)
-        {
-            // Create salt
-            byte[] salt;
-            new RNGCryptoServiceProvider().GetBytes(salt = new byte[SaltSize]);
-
-            // Create hash
-            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations);
-            var hash = pbkdf2.GetBytes(HashSize);
-
-            // Combine salt and hash
-            var hashBytes = new byte[SaltSize + HashSize];
-            Array.Copy(salt, 0, hashBytes, 0, SaltSize);
-            Array.Copy(hash, 0, hashBytes, SaltSize, HashSize);
-
-            // Convert to base64
-            var base64Hash = Convert.ToBase64String(hashBytes);
-
-            // Format hash with extra information
-            return string.Format("$MYHASH$V1${0}${1}", iterations, base64Hash);
-        }
-        public static bool IsHashSupported(string hashString)
-        {
-            return hashString.Contains("$MYHASH$V1$");
-        }
-
-        public static bool Verify(string password, string hashedPassword)
-        {
-            // Check hash
-            if (!IsHashSupported(hashedPassword))
+            try
             {
-                throw new NotSupportedException("The hashtype is not supported");
-            }
+                Employee employee = new Employee();
+                employee.Name = user.EmployeeName;
+                employee.Password = EncryptedPassword(user.Password);
+                employee.Email = user.Email;
+                employee.UpdateTimeStamp = DateTime.UtcNow;
+                employee.PAN = user.PAN;
+                employee.ProfilePicturePath = user.ProfilePicture;
+                var hasUpdated = await _employeeRepo.Update(employee);
 
-            // Extract iteration and Base64 string
-            var splittedHashString = hashedPassword.Replace("$MYHASH$V1$", "").Split('$');
-            var iterations = int.Parse(splittedHashString[0]);
-            var base64Hash = splittedHashString[1];
-
-            // Get hash bytes
-            var hashBytes = Convert.FromBase64String(base64Hash);
-
-            // Get salt
-            var salt = new byte[SaltSize];
-            Array.Copy(hashBytes, 0, salt, 0, SaltSize);
-
-            // Create hash with given salt
-            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations);
-            byte[] hash = pbkdf2.GetBytes(HashSize);
-
-            // Get result
-            for (var i = 0; i < HashSize; i++)
-            {
-                if (hashBytes[i + SaltSize] != hash[i])
+                if (hasUpdated > 0)
                 {
-                    return false;
+                    return hasUpdated;
                 }
             }
-            return true;
+            catch(Exception ex) 
+            {
+                throw;
+            }
+            return 0;
+        }
+        //yet to work on this
+        [HttpPost("DeleteEmployee")]
+        public async Task<ActionResult<IEnumerable<Users>>> DeleteEmployee(Users user)
+        {
+            Employee employee = new Employee();
+            employee.Name = user.EmployeeName;
+            employee.Email = user.Email;
+            employee.UpdateTimeStamp = DateTime.UtcNow;
+            employee.ProfilePicturePath = user.ProfilePicture;
+            var x = await _employeeRepo.Update(employee);
+
+            if (x > 0)
+            {
+
+            }
+
+            return null;
+        }
+       
+        private byte[] EncryptedPassword(string password)
+        {
+            using (RijndaelManaged myRijndael = new RijndaelManaged())
+            {
+                myRijndael.Key = new byte[32] { 118, 123, 23, 17, 161, 152, 35, 68, 126, 213, 16, 115, 68, 217, 58, 108, 56, 218, 5, 78, 28, 128, 113, 208, 61, 56, 10, 87, 187, 162, 233, 38 };
+                myRijndael.IV = new byte[16] { 33, 241, 14, 16, 103, 18, 14, 248, 4, 54, 18, 5, 60, 76, 16, 191 };
+                return EncryptStringToBytes(password, myRijndael.Key, myRijndael.IV);
+            }
         }
 
+        private string DecryptPassword(byte[] password)
+        {
+            using (RijndaelManaged myRijndael = new RijndaelManaged())
+            {
+                myRijndael.Key = new byte[32] { 118, 123, 23, 17, 161, 152, 35, 68, 126, 213, 16, 115, 68, 217, 58, 108, 56, 218, 5, 78, 28, 128, 113, 208, 61, 56, 10, 87, 187, 162, 233, 38 };
+                myRijndael.IV = new byte[16] { 33, 241, 14, 16, 103, 18, 14, 248, 4, 54, 18, 5, 60, 76, 16, 191 };
+
+                return DecryptStringFromBytes(password, myRijndael.Key, myRijndael.IV);
+            }
+        }
+        static byte[] EncryptStringToBytes(string plainText, byte[] Key, byte[] IV)
+        {
+            // Check arguments.
+            if (plainText == null || plainText.Length <= 0)
+                throw new ArgumentNullException("plainText");
+            if (Key == null || Key.Length <= 0)
+                throw new ArgumentNullException("Key");
+            if (IV == null || IV.Length <= 0)
+                throw new ArgumentNullException("IV");
+            byte[] encrypted;
+            // Create an RijndaelManaged object
+            // with the specified key and IV.
+            using (RijndaelManaged rijAlg = new RijndaelManaged())
+            {
+                rijAlg.Key = Key;
+                rijAlg.IV = IV;
+
+                // Create an encryptor to perform the stream transform.
+                ICryptoTransform encryptor = rijAlg.CreateEncryptor(rijAlg.Key, rijAlg.IV);
+
+                // Create the streams used for encryption.
+                using (MemoryStream msEncrypt = new MemoryStream())
+                {
+                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                        {
+
+                            //Write all data to the stream.
+                            swEncrypt.Write(plainText);
+                        }
+                        encrypted = msEncrypt.ToArray();
+                    }
+                }
+            }
+
+            // Return the encrypted bytes from the memory stream.
+            return encrypted;
+        }
+
+        static string DecryptStringFromBytes(byte[] cipherText, byte[] Key, byte[] IV)
+        {
+            // Check arguments.
+            if (cipherText == null || cipherText.Length <= 0)
+                throw new ArgumentNullException("cipherText");
+            if (Key == null || Key.Length <= 0)
+                throw new ArgumentNullException("Key");
+            if (IV == null || IV.Length <= 0)
+                throw new ArgumentNullException("IV");
+
+            // Declare the string used to hold
+            // the decrypted text.
+            string plaintext = null;
+
+            // Create an RijndaelManaged object
+            // with the specified key and IV.
+            using (RijndaelManaged rijAlg = new RijndaelManaged())
+            {
+                rijAlg.Key = Key;
+                rijAlg.IV = IV;
+
+                // Create a decryptor to perform the stream transform.
+                ICryptoTransform decryptor = rijAlg.CreateDecryptor(rijAlg.Key, rijAlg.IV);
+
+                // Create the streams used for decryption.
+                using (MemoryStream msDecrypt = new MemoryStream(cipherText))
+                {
+                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+                        {
+                            // Read the decrypted bytes from the decrypting stream
+                            // and place them in a string.
+                            plaintext = srDecrypt.ReadToEnd();
+                        }
+                    }
+                }
+            }
+
+            return plaintext;
+        }
     }
 }

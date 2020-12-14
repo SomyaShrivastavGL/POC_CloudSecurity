@@ -9,6 +9,8 @@ using System.Net;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Models.Data;
+using System.Text;
 
 namespace Web_Api.Controllers
 {
@@ -17,24 +19,53 @@ namespace Web_Api.Controllers
     [ApiController]
     public class UserController:ControllerBase
     {
-        [HttpPost("GetEmployee")]
-        public  Task<ActionResult<IEnumerable<Users>>> GetEmployee(string email) 
+        private string businessurl = "https://localhost:44394/api/User/";
+
+        [HttpGet("Login")]
+        public HttpResponseMessage LoginEmployee(Users user)
         {
-            string businessurl = string.Format("https://localhost:44394/api/User/GetEmployee?email={0}" , email);
+            var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(user);
+
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", "aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw");
-            HttpResponseMessage response = client.PostAsJsonAsync(businessurl, email).Result;
-            return null;
+            HttpResponseMessage response = client.PostAsJsonAsync(businessurl + "LoginEmployee", user).Result;
+            return response;
         }
 
-        [HttpGet("GetEmployees")]
-        public Task<ActionResult<IEnumerable<Users>>> GetEmployees()
+
+        [HttpGet("GetEmployee")]
+        public Employee GetEmployee(string email) 
         {
-            string businessurl = string.Format("https://localhost:44394/api/User/GetEmployees");
-            WebRequest obj = WebRequest.Create(businessurl);
-            obj.Method = "Post";
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(string.Format(businessurl + "GetEmployee?email={0}", email));
+            webRequest.ContentType = "application/x-www-form-urlencoded";
+            webRequest.Headers.Add("Authorization", "Basic aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw");
+            webRequest.Method = WebRequestMethods.Http.Post;
+            webRequest.AllowAutoRedirect = true;
+            webRequest.Proxy = null;
+            string data = "email="+email;
+            byte[] dataStream = Encoding.UTF8.GetBytes(data);
+            webRequest.ContentLength = dataStream.Length;
+            Stream newStream = webRequest.GetRequestStream();
+            newStream.Write(dataStream, 0, dataStream.Length);
+            newStream.Close();
+
+            HttpWebResponse responses = (HttpWebResponse)webRequest.GetResponse();
+            Stream stream = responses.GetResponseStream();
+            StreamReader streamreader = new StreamReader(stream);
+            string returnResult = streamreader.ReadToEnd();
+
+            var returnItems = Newtonsoft.Json.JsonConvert.DeserializeObject<Employee>(returnResult);
+            return returnItems;
+        }
+
+        
+        [HttpGet("GetEmployees")]
+        public IEnumerable<Employee> GetEmployees()
+        {
+            WebRequest obj = WebRequest.Create(businessurl + "GetEmployees");
+            obj.Method = "Get";
             HttpWebResponse respo = null;
             obj.Headers.Add("Authorization", "Basic aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw");
             respo = (HttpWebResponse)obj.GetResponse();
@@ -45,32 +76,30 @@ namespace Web_Api.Controllers
                 result = sr.ReadToEnd();
                 sr.Close();
             }
-            return null;
+          var returnItems=  Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Employee>>(result);
+            return returnItems;
         }
         [HttpPost("AddEmployee")]
-        public Task<ActionResult<IEnumerable<Users>>> SaveUser(Users user)
+        public HttpResponseMessage SaveUser(Users user)
         {
-            string businessurl = string.Format("https://localhost:44394/api/User/AddEmployee");
-            
             var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(user);
 
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Authorization=new AuthenticationHeaderValue("Basic", "aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw");
-            HttpResponseMessage response = client.PostAsJsonAsync(businessurl, user).Result;
-            return null;
+            HttpResponseMessage response = client.PostAsJsonAsync(businessurl + "AddEmployee", user).Result;
+            return response;
         }
         [HttpPost("UpdateEmployee")]
-        public Task<ActionResult<IEnumerable<Users>>> UpdateUser(Users user)
+        public HttpResponseMessage UpdateUser(Users user)
         {
-            string businessurl = string.Format("https://localhost:44394/api/User/UpdateEmployee");
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", "aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw");
-            HttpResponseMessage response = client.PostAsJsonAsync(businessurl, user).Result;
-            return null;
+            HttpResponseMessage response = client.PostAsJsonAsync(businessurl + "UpdateEmployee", user).Result;
+            return response;
         }
     }
 }
