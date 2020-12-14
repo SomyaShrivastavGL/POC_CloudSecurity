@@ -28,6 +28,8 @@ namespace Web_Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddMvc();
+            services.AddAntiforgery(options => options.HeaderName = "X-XSRF-Token");
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
         }
