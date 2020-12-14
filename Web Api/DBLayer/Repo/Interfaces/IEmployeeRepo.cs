@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace DBLayer.Repo.Interfaces
 {
-    interface IEmployeeRepo
+   public interface IEmployeeRepo
     {
         Task<int> Add(Employee employee);
         Task<int> Update(Employee employee);
         Task<int> Delete(Employee employee);
         Task<IEnumerable<Employee>> GetAll();
         Task<IEnumerable<Employee>> Filter(Expression<Func<Employee, bool>> filter);
-        Task<Employee> GetEmployee(int Id);
+        Task<Employee> GetEmployee(string Email);
     }
 }

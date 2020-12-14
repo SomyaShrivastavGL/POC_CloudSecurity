@@ -38,9 +38,9 @@ namespace DBLayer.Repo.Implementation
             return await _ctx.Employees.ToListAsync();
         }
 
-        public async Task<Employee> GetEmployee(int Id)
+        public async Task<Employee> GetEmployee(string Email)
         {
-            return await _ctx.Employees.FindAsync(Id);
+            return await _ctx.Employees.FindAsync(Email);
         }
 
         public async Task<int> Update(Employee employee)
