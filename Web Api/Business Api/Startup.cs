@@ -1,26 +1,20 @@
+using DBLayer;
+using DBLayer.Repo.Implementation;
+using DBLayer.Repo.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Web_Api.Handlers;
-using DBLayer.Repo.Implementation;
-using DBLayer.Repo.Interfaces;
-using DBLayer;
-using Microsoft.EntityFrameworkCore;
 
 namespace Business_Api
 {
     public class Startup
     {
+        readonly string AllowSpecificPolicy = "AllowSpecificPolicy";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -31,11 +25,22 @@ namespace Business_Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllowSpecificPolicy, builder =>
+                {
+                    builder.WithOrigins(Configuration.GetSection("AllowedHosts").Get<string[]>())
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
+            });
             services.AddControllers();
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
-            services.AddDbContextPool<EmployeeDBContext>(
-           options => options.UseSqlServer(Configuration.GetConnectionString("EmployeeDBConnection"), b => b.MigrationsAssembly("Business Api")));
+            services.AddDbContextPool<EmployeeDBContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("EmployeeDBConnection"), b => b.MigrationsAssembly("Business Api"));
+            });
             services.AddTransient<IEmployeeRepo, EmployeeRepo>();
         }
 
@@ -48,12 +53,10 @@ namespace Business_Api
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors(AllowSpecificPolicy);
             app.UseRouting();
             app.UseAuthentication();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
