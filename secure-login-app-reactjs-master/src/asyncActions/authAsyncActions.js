@@ -1,8 +1,12 @@
 import {
   verifyTokenStarted, verifyUserSuccess, verifyTokenEnd,
-  userLoginStarted, userLoginFailure, userLogout
+  userLoginStarted, userLoginFailure, userLogout, 
+  userSignUpStarted, userSignUpFailure, verifySignUpSuccess, 
+  profileUpdateStarted, verifyProfileUpdateSuccess, profileUpdateFailure, 
+  userGetStarted, userGetFailure, verifyGetUserSuccess
 } from "../actions/authActions";
-import { verifyTokenService, userLoginService, userLogoutService } from '../services/auth';
+import { verifyTokenService, userLoginService, userLogoutService, userSignUpService } from '../services/auth';
+import { userGetService, profileUpdateService } from '../services/user';
 
 // handle verify token
 export const verifyTokenAsync = (silentAuth = false) => async dispatch => {
@@ -28,13 +32,57 @@ export const userLoginAsync = (username, password) => async dispatch => {
   dispatch(userLoginStarted());
 
   const result = await userLoginService(username, password);
-
+  
   if (result.error) {
     dispatch(userLoginFailure(result.response.data.message));
     return;
   }
 
   dispatch(verifyUserSuccess(result.data));
+}
+
+// handle user get
+export const userGetAsync = (email) => async dispatch => {
+  dispatch(userGetStarted());
+
+  const result = await userGetService(email);
+  
+  if (result.error) {
+    dispatch(userGetFailure(result.response.data.message));
+    return;
+  }
+
+  dispatch(verifyGetUserSuccess(result.data));
+}
+
+// handle user signUp
+export const userSignUpAsync = (user) => async dispatch => {
+  dispatch(userSignUpStarted());
+
+  const result = await userSignUpService(user);
+  
+  if (result.error) {    
+    dispatch(userSignUpFailure(result.response.data.message));    
+  }
+  else{
+    dispatch(verifySignUpSuccess(result.data));
+  }
+  return;
+}
+
+// handle user update
+export const profileUpdateAsync = (user) => async dispatch => {
+  dispatch(profileUpdateStarted());
+
+  const result = await profileUpdateService(user);
+  
+  if (result.error) {    
+    dispatch(profileUpdateFailure(result.response.data.message));    
+  }
+  else{
+    dispatch(verifyProfileUpdateSuccess(result.data));
+  }
+  return;
 }
 
 // handle user logout

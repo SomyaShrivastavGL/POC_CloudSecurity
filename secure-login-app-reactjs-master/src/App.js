@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, NavLink, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Login from './pages/Login';
+import SignUp from './pages/SignUp';
 import Dashboard from './pages/Dashboard';
 
 import PrivateRoute from './routes/PrivateRoute';
@@ -31,13 +32,18 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <div>
-          <div className="header">
+        <div className="header heading centerText">
+            THE EMPLOYEE BOOK
+          </div>
+          <div className="header centerText">
             <NavLink activeClassName="active" to="/login">Login</NavLink>
+            <NavLink activeClassName="active" to="/signUp">Sign Up</NavLink>
             <NavLink activeClassName="active" to="/dashboard">Dashboard</NavLink>
           </div>
           <div className="content">
             <Switch>
               <PublicRoute path="/login" component={Login} isAuthenticated={isAuthenticated} />
+              <PublicRoute path="/signUp" component={SignUp} isAuthenticated={isAuthenticated} />
               <PrivateRoute path="/dashboard" component={Dashboard} isAuthenticated={isAuthenticated} />
               <Redirect to={isAuthenticated ? '/dashboard' : '/login'} />
             </Switch>

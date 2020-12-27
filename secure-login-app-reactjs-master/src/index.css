@@ -14,6 +14,7 @@ code {
 
 .content {
   padding: 20px;
+  height: 1000px;
 }
 
 .header {
@@ -35,4 +36,82 @@ code {
 }
 .header .active {
   color: #2c7613;
+}
+
+.App{
+  background-color: lightblue;
+  height: 100%;
+
+}
+.heading{
+  color: darkblue;
+  font-size: 40px;
+  text-align: center;
+}
+
+.subHeading{
+  color: darkblue;
+  font-size:35px;
+}
+
+.centerDiv{
+  margin-left: 20%;
+  margin-right: 20%;
+  background-color:  #edf2f4;
+  border-radius: 10px;  
+}
+
+.fields{
+  color: black;
+  font-size: 20px;
+}
+
+.warningMsg {
+  color: red;
+  font-size: 15px;
+}
+
+input{
+  font-size: 20px;
+  padding: 5px;
+  border-radius: 5px !important;
+}
+
+.actionBtn{
+  background-color: rgb(6, 57, 124) !important;
+  border-radius: 5px !important;  
+  color: azure !important;
+  text-align: center !important;
+  font-size: 20px !important;  
+  margin-top: 20px !important;
+  margin-bottom: 60px !important;
+  width: 30%;
+}
+
+.alignTop{
+  vertical-align: top;
+}
+
+.centerText{
+  text-align: center;
+}
+
+table{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ProfilePicture{
+  border: 1px solid black;
+  border-radius: 10px; 
+  height: 300px;
+  width :250px;  
+}
+
+.userListTable{  
+  border: 3px solid  rgb(6, 57, 124) !important;
+}
+
+.userListTRow{
+  text-align: left;  
 }
