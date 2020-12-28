@@ -8,12 +8,13 @@ import { userLogout, verifyTokenEnd } from "./../actions/authActions";
 import { setAuthToken } from './../services/auth';
 import { getUserListService } from './../services/user';
 
-function Dashboard(props) {
+function Admin(props) {
 
   const dispatch = useDispatch();
   const authObj = useSelector(state => state.auth);
 
-  const { user, token, expiredAt, profileUpdating, profileUpdateError, userGetInProgress } = authObj;  
+  const { user, token, expiredAt, profileUpdating, profileUpdateError } = authObj;
+  const [userList, setUserList] = useState([]);
 
   var employeeName = useFormInput(user.employeeName);
   var password = useFormInput(user.password);  
@@ -25,21 +26,18 @@ function Dashboard(props) {
   const[ validEmployeeName, setValidEmp] = useState(true);
   const[ validEmail, setValidEmail] = useState(true);
   const[ validPassword, setValidPassword] = useState(true);  
-  const[ validPAN, setValidPan] = useState(true);  
+  const[ validPAN, setValidPan] = useState(true);
+  const[ listItems, setListItems] = useState([]);
+
   
   // handle button click of update form
   const getCurrentUser = () => {        
     dispatch(userGetAsync(user.email))
     .then((response)=>{
-      if(user.isAdminUser){
-        props.history.push('/admin');
-      } 
-      if(validForm(user)){
-        employeeName = user.employeeName;
-        email = user.email;
-        password = user.password;
-        pan = user.pan;                   
-      }      
+      employeeName = user.employeeName;
+      email = user.email;
+      password = user.password;
+      pan = user.pan;      
     }); 
   }  
 
@@ -53,11 +51,6 @@ function Dashboard(props) {
       }); }
   }
 
-  const redirectToAdmin = () => {
-    if(user.isAdminUser){
-      props.history.push('/admin');
-    }
-  }
   // handle click event of the logout button
   const handleLogout = () => {
     dispatch(userLogoutAsync());
@@ -87,7 +80,39 @@ function Dashboard(props) {
         rejecct(error);
       }
     } );
-  }  
+  }
+
+  const handleUserDelete = (id) => {
+    alert("Deleting User with user Id = "+id);
+  }
+  // get user list
+  const getUserList = async () => {
+    const result = await getUserListService();
+    if (result.error) {
+      dispatch(verifyTokenEnd());
+      if (result.response && [401, 403].includes(result.response.status))
+        dispatch(userLogout());
+      setListItems(result.data.map((d) => 
+      <tr className="userListTRow">
+        <td key={d.employeeName}>{d.employeeName}</td>
+        <td key={d.email}>{d.email}</td>
+        <td key={d.pan}>{d.pan}</td>
+        <td key={d.Id}>
+          <input 
+                type="button"
+                style={{ marginTop: 10 }}
+                value="Delete" //{userDeleting ? 'Processing ...' : 'Delete'}
+                //onClick={handleUserDelete(d.Id)}
+                //disabled={userDeleting}
+                 />
+        </td>
+      </tr>      
+      ));
+      setUserList(result.data);
+      return;
+    }    
+    setUserList(result.data);
+  }
 
   function validForm(chkUser){   
     var isValid= true; 
@@ -121,7 +146,10 @@ function Dashboard(props) {
     }         
     return isValid;
   }
-  
+
+  function readFileDataAsBase64(e) {
+    
+  }
   // set timer to renew token
   useEffect(() => {
     setAuthToken(token);
@@ -135,13 +163,16 @@ function Dashboard(props) {
 
   // get user list on page load
   useEffect(() => {    
-    getCurrentUser();    
-  }, []); 
+    getCurrentUser();
+    if(user.isAdminUser){
+      getUserList();
+    }
+  }, []);
   
   return (
     <div className="subHeading centerDiv centerText">    
-    Profile<br /><br /> 
-      <div className="fields centerDiv centerText ">      
+    Admin - Profile<br /><br /> 
+      <div className="fields ">      
      <b> Welcome {user.employeeName}!</b><br /><br />
       <table>
         <tr>
@@ -149,7 +180,7 @@ function Dashboard(props) {
               <div className="alignTop centerText">
                 <div className="fields ">
                   Employee Name<br />
-                  <input type="text" {...employeeName} /> <br/>                               
+                  <input type="text" {...employeeName} /> <br/>
                   <label className="warningMsg">{validEmployeeName?"":"Employee name is not valid."}</label> 
                 </div>
                 <div className="fields ">
@@ -193,7 +224,20 @@ function Dashboard(props) {
           </td>
         </tr>
       </table>  
-      </div>                      
+      </div>                
+      <div className="subHeading centerText">        
+        User List<br/>
+        {/* <pre>{userList.length>0?JSON.stringify(userList, null, 2):"No users to show"}</pre> */}
+        <table className="fields userListTable">
+          <tr>
+            <th>Employee Name</th>
+            <th>Email</th>
+            <th>PAN</th>
+          </tr>
+          {listItems}
+        </table>
+        <input className="actionBtn" type="button" onClick={getUserList} value="Get Data" /><br /><br />
+      </div>
       <div className="centerDiv">
         <input className="actionBtn" type="button" onClick={handleLogout} value="Logout" /><br /><br />
       </div>
@@ -214,4 +258,4 @@ const useFormInput = initialValue => {
   }
 }
 
-export default Dashboard;
+export default Admin;

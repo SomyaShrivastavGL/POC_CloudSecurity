@@ -31,7 +31,7 @@ function Login() {
         setValidEmail(false);
         isValid =false;
     }    
-    if(password!=undefined && password != "" && password.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/)){                            
+    if(password!=undefined && password != "" && password.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,64}$/)){                            
         setValidPassword(true);      
     } 
     else

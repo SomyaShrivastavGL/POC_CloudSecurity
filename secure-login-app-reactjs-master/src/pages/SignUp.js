@@ -25,7 +25,7 @@ function SignUp(props) {
 
   // handle button click of signup form
   const handleSignUp = () => {
-    var user ={employeeName:employeeName.value, password:password.value, email:email.value, pan:pan.value} ;
+    var user ={employeeName:employeeName.value, password:password.value, confirmPassword:confirmPassword.value, email:email.value, pan:pan.value} ;
     if(validForm(user)){
       dispatch(userSignUpAsync(user))
       .then((response)=>{
@@ -49,15 +49,15 @@ function SignUp(props) {
         setValidEmail(false);
         isValid =false;
     }    
-    if(user.password!=undefined && user.password != "" && user.password.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/)){                            
+    if(user.password!=undefined && user.password != "" && user.password.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,64}$/)){                            
         setValidPassword(true);      
     } 
     else
     {
         setValidPassword(false);   
         isValid =false;   
-    }    
-    if(user.password!=user.confirmPassword){
+    }        
+    if(user.password!==user.confirmPassword){
       setValidConfirmPassword(false);
       isValid = false;
     }

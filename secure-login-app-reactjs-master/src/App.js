@@ -10,6 +10,7 @@ import PrivateRoute from './routes/PrivateRoute';
 import PublicRoute from './routes/PublicRoute';
 
 import { verifyTokenAsync } from './asyncActions/authAsyncActions';
+import Admin from './pages/Admin';
 
 function App() {
   
@@ -45,6 +46,7 @@ function App() {
               <PublicRoute path="/login" component={Login} isAuthenticated={isAuthenticated} />
               <PublicRoute path="/signUp" component={SignUp} isAuthenticated={isAuthenticated} />
               <PrivateRoute path="/dashboard" component={Dashboard} isAuthenticated={isAuthenticated} />
+              <PrivateRoute path="/admin" component={Admin} isAuthenticated={isAuthenticated} />
               <Redirect to={isAuthenticated ? '/dashboard' : '/login'} />
             </Switch>
           </div>
