@@ -45,6 +45,21 @@ namespace Business_Api.Controllers
             return employeeDetail;
         }
 
+        [HttpPost("DeleteEmployee")]
+        public async Task<ActionResult<HttpStatusCode>> DeleteEmployee(Users user)
+        {
+            try
+            {
+                Employee employee = new Employee();
+                employee.Email = user.Email;
+                var employeeDetail = await _employeeRepo.Delete(employee);
+                return HttpStatusCode.OK;
+            }
+            catch (Exception ex) { throw; }
+
+            return HttpStatusCode.OK;
+        }
+
         [HttpPost("LoginEmployee")]
         public async Task<ActionResult<HttpStatusCode>> LoginEmployee(Users user)
         {
@@ -76,7 +91,7 @@ namespace Business_Api.Controllers
                 employee.CreationTimeStamp = DateTime.UtcNow;
                 employee.IsActive = true;
                 employee.IsLocked = false;
-                employee.PAN = user.PAN;
+                employee.PAN = EncryptedPassword(user.PAN);
                 employee.ProfilePicturePath = user.ProfilePicture;
                 var hasAdded = await _employeeRepo.Add(employee);
 
@@ -102,7 +117,7 @@ namespace Business_Api.Controllers
                 employee.Password = EncryptedPassword(user.Password);
                 employee.Email = user.Email;
                 employee.UpdateTimeStamp = DateTime.UtcNow;
-                employee.PAN = user.PAN;
+                employee.PAN = EncryptedPassword(user.PAN);
                 employee.ProfilePicturePath = user.ProfilePicture;
                 var hasUpdated = await _employeeRepo.Update(employee);
 
@@ -117,25 +132,6 @@ namespace Business_Api.Controllers
             }
             return 0;
         }
-        //yet to work on this
-        [HttpPost("DeleteEmployee")]
-        public async Task<ActionResult<IEnumerable<Users>>> DeleteEmployee(Users user)
-        {
-            Employee employee = new Employee();
-            employee.Name = user.EmployeeName;
-            employee.Email = user.Email;
-            employee.UpdateTimeStamp = DateTime.UtcNow;
-            employee.ProfilePicturePath = user.ProfilePicture;
-            var x = await _employeeRepo.Update(employee);
-
-            if (x > 0)
-            {
-
-            }
-
-            return null;
-        }
-       
         private byte[] EncryptedPassword(string password)
         {
             using (RijndaelManaged myRijndael = new RijndaelManaged())

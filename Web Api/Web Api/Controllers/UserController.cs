@@ -101,5 +101,16 @@ namespace Web_Api.Controllers
             HttpResponseMessage response = client.PostAsJsonAsync(businessurl + "UpdateEmployee", user).Result;
             return response;
         }
+
+        [HttpPost("DeleteEmployee")]
+        public HttpResponseMessage DeleteUser(Users user)
+        {
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", "aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw");
+            HttpResponseMessage response = client.PostAsJsonAsync(businessurl + "DeleteEmployee", user).Result;
+            return response;
+        }
     }
 }
