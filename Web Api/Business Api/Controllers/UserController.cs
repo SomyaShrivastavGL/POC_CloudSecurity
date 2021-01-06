@@ -13,7 +13,7 @@ using DBLayer.Repo.Implementation;
 using Models.Data;
 using DBLayer.Repo.Interfaces;
 using Newtonsoft.Json;
-
+using Microsoft.Extensions.Configuration;
 namespace Business_Api.Controllers
 {
     [Authorize]
@@ -21,9 +21,12 @@ namespace Business_Api.Controllers
     [ApiController]
     public class UserController:ControllerBase
     {
+        private IConfiguration configuration;
         private IEmployeeRepo _employeeRepo;
-        public UserController(IEmployeeRepo employeeRepo)
+        
+        public UserController(IEmployeeRepo employeeRepo, IConfiguration configurations)
         {
+            configuration = configurations;
             _employeeRepo = employeeRepo;
         }
 
@@ -140,8 +143,11 @@ namespace Business_Api.Controllers
         {
             using (RijndaelManaged myRijndael = new RijndaelManaged())
             {
-                myRijndael.Key = new byte[32] { 118, 123, 23, 17, 161, 152, 35, 68, 126, 213, 16, 115, 68, 217, 58, 108, 56, 218, 5, 78, 28, 128, 113, 208, 61, 56, 10, 87, 187, 162, 233, 38 };
-                myRijndael.IV = new byte[16] { 33, 241, 14, 16, 103, 18, 14, 248, 4, 54, 18, 5, 60, 76, 16, 191 };
+
+                var key = configuration.GetSection("MySettings").GetSection("Key").Value;
+                var vector = configuration.GetSection("MySettings").GetSection("Vector").Value;
+                myRijndael.Key = Convert.FromBase64String(key);
+                myRijndael.IV = Convert.FromBase64String(vector);
                 return EncryptStringToBytes(password, myRijndael.Key, myRijndael.IV);
             }
         }
@@ -150,8 +156,10 @@ namespace Business_Api.Controllers
         {
             using (RijndaelManaged myRijndael = new RijndaelManaged())
             {
-                myRijndael.Key = new byte[32] { 118, 123, 23, 17, 161, 152, 35, 68, 126, 213, 16, 115, 68, 217, 58, 108, 56, 218, 5, 78, 28, 128, 113, 208, 61, 56, 10, 87, 187, 162, 233, 38 };
-                myRijndael.IV = new byte[16] { 33, 241, 14, 16, 103, 18, 14, 248, 4, 54, 18, 5, 60, 76, 16, 191 };
+                var key = configuration.GetSection("MySettings").GetSection("Key").Value;
+                var vector = configuration.GetSection("MySettings").GetSection("Vector").Value;
+                myRijndael.Key = Convert.FromBase64String(key);
+                myRijndael.IV = Convert.FromBase64String(vector);
 
                 return DecryptStringFromBytes(password, myRijndael.Key, myRijndael.IV);
             }
