@@ -30,6 +30,9 @@ namespace Business_Api.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsLocked")
                         .HasColumnType("bit");
 
@@ -39,8 +42,8 @@ namespace Business_Api.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PAN")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("PAN")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<byte[]>("Password")
                         .HasColumnType("varbinary(max)");

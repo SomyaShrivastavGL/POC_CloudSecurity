@@ -7,7 +7,8 @@ namespace Models.Data
     public class Employee
     {
         public string Name { get; set; }
-        public string PAN { get; set; }
+        public byte[] PAN { get; set; }
+        public Boolean IsAdmin { get; set; }
         [Key]
         public string Email { get; set; }
         public byte[] Password { get; set; }

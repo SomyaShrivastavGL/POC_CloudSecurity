@@ -76,7 +76,7 @@ namespace Business_Api.Controllers
                 employee.CreationTimeStamp = DateTime.UtcNow;
                 employee.IsActive = true;
                 employee.IsLocked = false;
-                employee.PAN = user.PAN;
+                employee.PAN = EncryptedPassword(user.PAN); 
                 employee.ProfilePicturePath = user.ProfilePicture;
                 var hasAdded = await _employeeRepo.Add(employee);
 
@@ -102,7 +102,7 @@ namespace Business_Api.Controllers
                 employee.Password = EncryptedPassword(user.Password);
                 employee.Email = user.Email;
                 employee.UpdateTimeStamp = DateTime.UtcNow;
-                employee.PAN = user.PAN;
+                employee.PAN = EncryptedPassword(user.PAN);
                 employee.ProfilePicturePath = user.ProfilePicture;
                 var hasUpdated = await _employeeRepo.Update(employee);
 
