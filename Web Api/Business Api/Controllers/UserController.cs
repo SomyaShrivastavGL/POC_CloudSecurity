@@ -21,12 +21,14 @@ namespace Business_Api.Controllers
     [ApiController]
     public class UserController:ControllerBase
     {
-        private IConfiguration configuration;
+        private string _configurationKey;
+        private string _configurationVector;
         private IEmployeeRepo _employeeRepo;
         
         public UserController(IEmployeeRepo employeeRepo, IConfiguration configurations)
         {
-            configuration = configurations;
+            _configurationKey = configurations.GetSection("MySettings").GetSection("Key").Value;
+            _configurationVector = configurations.GetSection("MySettings").GetSection("Vector").Value;
             _employeeRepo = employeeRepo;
         }
 
@@ -144,10 +146,8 @@ namespace Business_Api.Controllers
             using (RijndaelManaged myRijndael = new RijndaelManaged())
             {
 
-                var key = configuration.GetSection("MySettings").GetSection("Key").Value;
-                var vector = configuration.GetSection("MySettings").GetSection("Vector").Value;
-                myRijndael.Key = Convert.FromBase64String(key);
-                myRijndael.IV = Convert.FromBase64String(vector);
+                myRijndael.Key = Convert.FromBase64String(_configurationKey);
+                myRijndael.IV = Convert.FromBase64String(_configurationVector);
                 return EncryptStringToBytes(password, myRijndael.Key, myRijndael.IV);
             }
         }
@@ -156,10 +156,8 @@ namespace Business_Api.Controllers
         {
             using (RijndaelManaged myRijndael = new RijndaelManaged())
             {
-                var key = configuration.GetSection("MySettings").GetSection("Key").Value;
-                var vector = configuration.GetSection("MySettings").GetSection("Vector").Value;
-                myRijndael.Key = Convert.FromBase64String(key);
-                myRijndael.IV = Convert.FromBase64String(vector);
+                myRijndael.Key = Convert.FromBase64String(_configurationKey);
+                myRijndael.IV = Convert.FromBase64String(_configurationVector);
 
                 return DecryptStringFromBytes(password, myRijndael.Key, myRijndael.IV);
             }
