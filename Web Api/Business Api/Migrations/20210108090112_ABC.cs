@@ -29,6 +29,21 @@ namespace Business_Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Roles",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EmployeeResumes",
                 columns: table => new
                 {
@@ -61,6 +76,9 @@ namespace Business_Api.Migrations
         {
             migrationBuilder.DropTable(
                 name: "EmployeeResumes");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Employees");

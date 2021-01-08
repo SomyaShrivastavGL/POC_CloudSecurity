@@ -89,6 +89,27 @@ namespace Business_Api.Migrations
                     b.ToTable("EmployeeResumes");
                 });
 
+            modelBuilder.Entity("Models.Data.Roles", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("Models.Data.EmployeeResume", b =>
                 {
                     b.HasOne("Models.Data.Employee", "Employee")

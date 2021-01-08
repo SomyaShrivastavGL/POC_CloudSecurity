@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Business_Api.Migrations
 {
     [DbContext(typeof(EmployeeDBContext))]
-    [Migration("20210106044006_ABC")]
+    [Migration("20210108090112_ABC")]
     partial class ABC
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,6 +89,27 @@ namespace Business_Api.Migrations
                     b.HasIndex("EmployeeEmail");
 
                     b.ToTable("EmployeeResumes");
+                });
+
+            modelBuilder.Entity("Models.Data.Roles", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Models.Data.EmployeeResume", b =>
