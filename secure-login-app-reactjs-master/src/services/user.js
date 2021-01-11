@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://localhost:4000';
+const API_URL = 'https://localhost:5001/api';
 
 // get list of the users
 export const getUserListService = async () => {
@@ -27,7 +27,9 @@ export const getUserListService = async () => {
 // get user API 
 export const userGetService = async (email) => {
   try {
-    return await axios.post(`${API_URL}/users/get`, { email });
+    return await axios.get(`${API_URL}/user/GetEmployee`, { params: {
+        email: email
+      }}  );
   } catch (err) {
     if(email == 'testUser@testing.com')
     {
@@ -56,7 +58,7 @@ export const userGetService = async (email) => {
 // user login API to validate the credential
 export const profileUpdateService = async (user) => {
   try {    
-    return await axios.post(`${API_URL}/users/update`, { user });
+    return await axios.post(`${API_URL}/user/update`, user );
   } catch (err) {      
     if( err.response == null || err.response == undefined )
     {

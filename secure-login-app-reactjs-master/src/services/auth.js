@@ -10,8 +10,8 @@ axios.defaults.headers.common['Authorization'] = `Basic aGFyam90LnNpbmdoQGdtYWls
 // set token to the axios
 export const setAuthToken = token => {
   if (token) {
-    axios.defaults.headers.common['Authorization'] = `Basic aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw`; 
-   // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    //axios.defaults.headers.common['Authorization'] = `Basic aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw`; 
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }
   else {
     delete axios.defaults.headers.common['Authorization'];
@@ -37,7 +37,11 @@ export const verifyTokenService = async () => {
 // user login API to validate the credential
 export const userLoginService = async (username, password) => {
   try {
-    return await axios.post(`${API_URL}/users/signin`, { username, password });
+   var user={
+      Email:username,
+      Password:password
+    }
+    return await axios.post(`${API_URL}/user/Login`, user);
   } catch (err) {    
     if(username == 'test' && password=='test')
     {
