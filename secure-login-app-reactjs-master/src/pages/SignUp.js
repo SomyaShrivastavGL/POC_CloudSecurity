@@ -25,8 +25,10 @@ function SignUp(props) {
 
   // handle button click of signup form
   const handleSignUp = () => {
-    var user ={employeeName:employeeName.value, password:password.value, confirmPassword:confirmPassword.value, email:email.value, pan:pan.value} ;
+    var user ={EmployeeName:employeeName.value, Password:password.value, ConfirmPassword:confirmPassword.value, Email:email.value, PAN:pan.value} ;
     if(validForm(user)){
+      var user ={EmployeeName:employeeName.value, Password:password.value, Email:email.value, PAN:pan.value} ;
+  
       dispatch(userSignUpAsync(user))
       .then((response)=>{
         props.history.push('/login');
@@ -35,21 +37,21 @@ function SignUp(props) {
 
   function validForm(user){   
     var isValid= true; 
-    if(user.employeeName!=undefined && user.employeeName != "" && user.employeeName.match(/^[a-zA-Z ]*$/)){    
+    if(user.EmployeeName!=undefined && user.EmployeeName != "" && user.EmployeeName.match(/^[a-zA-Z ]*$/)){    
       setValidEmp(true);
     } 
     else{
         setValidEmp(false);
         isValid =false;
     }  
-    if(user.email!=undefined && user.email != "" && user.email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/)){    
+    if(user.Email!=undefined && user.Email != "" && user.Email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/)){    
       setValidEmail(true);
     } 
     else{
         setValidEmail(false);
         isValid =false;
     }    
-    if(user.password!=undefined && user.password != "" && user.password.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,64}$/)){                            
+    if(user.Password!=undefined && user.Password != "" && user.Password.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,64}$/)){                            
         setValidPassword(true);      
     } 
     else
@@ -57,14 +59,14 @@ function SignUp(props) {
         setValidPassword(false);   
         isValid =false;   
     }        
-    if(user.password!==user.confirmPassword){
+    if(user.Password!==user.ConfirmPassword){
       setValidConfirmPassword(false);
       isValid = false;
     }
     else{
       setValidConfirmPassword(true);
     }    
-    if(user.pan!=undefined && user.pan != "" && user.pan.match(/^([a-zA-Z]{5})([0-9]{4})([a-zA-Z]{1})$/))
+    if(user.PAN!=undefined && user.PAN != "" && user.PAN.match(/^([a-zA-Z]{5})([0-9]{4})([a-zA-Z]{1})$/))
       setValidPan(true);  
     else{
         setValidPan(false);

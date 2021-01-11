@@ -1,12 +1,17 @@
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
-const API_URL = 'http://localhost:4000';
+const API_URL = 'https://localhost:5001/api';
 
+
+axios.defaults.headers.common['Authorization'] = `Basic aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw`; 
+  
+//axios.defaults.headers.common['Access-Control-Allow-Origin'] = `http://localhost:3000`; 
 // set token to the axios
 export const setAuthToken = token => {
   if (token) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    axios.defaults.headers.common['Authorization'] = `Basic aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw`; 
+   // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }
   else {
     delete axios.defaults.headers.common['Authorization'];
@@ -16,7 +21,11 @@ export const setAuthToken = token => {
 // verify refresh token to generate new access token if refresh token is present
 export const verifyTokenService = async () => {
   try {
-    return await axios.post(`${API_URL}/verifyToken`);
+    //eturn await axios.get(`${API_URL}/AntiForgery/VerifyTokens` );
+    return {
+      error: true
+    }
+
   } catch (err) {
     return {
       error: true,
@@ -56,7 +65,8 @@ export const userLoginService = async (username, password) => {
 // user login API to validate the credential
 export const userSignUpService = async (user) => {
   try {
-    return await axios.post(`${API_URL}/users/signup`, { user });
+    user.ProfilePicture =null;
+    return await axios.post(`${API_URL}/user/AddEmployee`,  user);
   } catch (err) {      
     if( err.response == null || err.response == undefined )
     {
