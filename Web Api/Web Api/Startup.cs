@@ -26,8 +26,9 @@ namespace Web_Api
             {
                 options.AddPolicy("AllowSpecificPolicy", builder =>
                 {
-                    builder.WithOrigins(Configuration.GetSection("AllowedHosts").Get<string[]>())
-                    .AllowAnyHeader()
+                    builder.WithOrigins("http://localhost:3000").AllowAnyHeader()
+                    .AllowCredentials()
+                    
                     .AllowAnyMethod();
                 });
             });

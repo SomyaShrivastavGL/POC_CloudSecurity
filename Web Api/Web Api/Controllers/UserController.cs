@@ -21,7 +21,7 @@ namespace Web_Api.Controllers
     {
         private string businessurl = "https://localhost:44394/api/User/";
 
-        [HttpGet("Login")]
+        [HttpPost("Login")]
         public HttpResponseMessage LoginEmployee(Users user)
         {
             var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(user);

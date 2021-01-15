@@ -15,7 +15,7 @@ namespace Web_Api.Controllers
         {
             _antiForgery = antiforgery;
         }
-
+        [HttpGet("VerifyToken")]
         public IActionResult Get()
         {
             var tokenStore = _antiForgery.GetAndStoreTokens(HttpContext);

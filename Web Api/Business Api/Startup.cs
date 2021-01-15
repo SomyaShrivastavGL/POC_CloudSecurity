@@ -29,8 +29,8 @@ namespace Business_Api
             {
                 options.AddPolicy(AllowSpecificPolicy, builder =>
                 {
-                    builder.WithOrigins(Configuration.GetSection("AllowedHosts").Get<string[]>())
-                    .AllowAnyHeader()
+                    builder.WithOrigins("http://localhost:3000")
+                    
                     .AllowAnyMethod();
                 });
             });
