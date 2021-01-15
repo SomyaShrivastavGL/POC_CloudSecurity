@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Business_Api.Migrations
 {
     [DbContext(typeof(EmployeeDBContext))]
-    [Migration("20210108090112_ABC")]
+    [Migration("20210115072844_ABC")]
     partial class ABC
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,9 @@ namespace Business_Api.Migrations
                     b.Property<DateTime>("LastLogin")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("LastUpdateComment")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -49,6 +52,9 @@ namespace Business_Api.Migrations
 
                     b.Property<byte[]>("Password")
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ProfileLink")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProfilePicturePath")
                         .HasColumnType("nvarchar(max)");
@@ -110,6 +116,24 @@ namespace Business_Api.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("Models.Data.UserRoles", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RolesID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Models.Data.EmployeeResume", b =>

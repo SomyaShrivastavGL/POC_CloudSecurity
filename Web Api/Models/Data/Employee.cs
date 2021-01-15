@@ -13,6 +13,8 @@ namespace Models.Data
         public string Email { get; set; }
         public byte[] Password { get; set; }
         public string ProfilePicturePath { get; set; }
+        public string LastUpdateComment { get; set; }
+        public string ProfileLink { get; set; }
         public bool IsLocked { get; set; }
         public bool IsActive { get; set; }
         public DateTime LastLogin { get; set; }

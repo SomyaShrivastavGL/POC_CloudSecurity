@@ -17,6 +17,8 @@ namespace Business_Api.Migrations
                     IsAdmin = table.Column<bool>(type: "bit", nullable: false),
                     Password = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     ProfilePicturePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastUpdateComment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfileLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsLocked = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     LastLogin = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -41,6 +43,20 @@ namespace Business_Api.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserRoles",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RolesID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRoles", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -79,6 +95,9 @@ namespace Business_Api.Migrations
 
             migrationBuilder.DropTable(
                 name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "UserRoles");
 
             migrationBuilder.DropTable(
                 name: "Employees");

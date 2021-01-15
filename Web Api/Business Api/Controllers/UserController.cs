@@ -44,10 +44,21 @@ namespace Business_Api.Controllers
         }
 
         [HttpPost("GetEmployee")]
-        public async Task<ActionResult<Employee>> GetEmployee(string email)
+        public async Task<ActionResult<Users>> GetEmployee(string email)
         {
             var employeeDetail = await _employeeRepo.GetEmployee(email);
-            return employeeDetail;
+
+            Users user = new Users();
+
+            user.Email = employeeDetail.Email;
+            user.EmployeeName = employeeDetail.Name;
+            user.PAN = DecryptPassword(employeeDetail.PAN);
+            user.Password = DecryptPassword(employeeDetail.Password);
+            user.ProfilePicture = employeeDetail.ProfilePicturePath;
+            user.LastUpdateComment = employeeDetail.LastUpdateComment;
+            user.ProfileLink = employeeDetail.ProfileLink;
+
+            return user;
         }
 
         [HttpPost("LoginEmployee")]
@@ -63,8 +74,6 @@ namespace Business_Api.Controllers
                     return HttpStatusCode.OK;
                 }
             }
-
-
 
             return HttpStatusCode.NotFound;
         }
@@ -83,6 +92,8 @@ namespace Business_Api.Controllers
                 employee.IsLocked = false;
                 employee.PAN = EncryptedPassword(user.PAN); 
                 employee.ProfilePicturePath = user.ProfilePicture;
+                employee.LastUpdateComment = user.LastUpdateComment;
+                employee.ProfileLink = user.ProfileLink;
                 var hasAdded = await _employeeRepo.Add(employee);
 
                 if (hasAdded > 0)
