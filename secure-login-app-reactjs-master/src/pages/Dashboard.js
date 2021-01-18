@@ -15,10 +15,10 @@ function Dashboard(props) {
 
   const { user, token, expiredAt, profileUpdating, profileUpdateError, userGetInProgress } = authObj;  
 
-  var employeeName = useFormInput(user.employeeName);
-  var password = useFormInput(user.password);  
-  var email = useFormInput(user.email);
-  var pan = useFormInput(user.pan);
+  var employeeName = useFormInput(user.EmployeeName);
+  var password = useFormInput(user.Password);  
+  var email = useFormInput(user.Email);
+  var pan = useFormInput(user.PAN);
   var profileLink = useFormInput(user.profileLink);
   var comment = useFormInput(""); 
   var profileLink = useFormInput("");
@@ -36,13 +36,13 @@ function Dashboard(props) {
 
   // handle button click of update form
   const getCurrentUser = () => {        
-    dispatch(userGetAsync(user.email))
+    dispatch(userGetAsync(user.Email))
     .then((response)=>{     
       if(validForm(user)){
-        employeeName = user.employeeName;
-        email = user.email;
-        password = user.password;
-        pan = user.pan;  
+        employeeName = user.EmployeeName;
+        email = user.Email;
+        password = user.Password;
+        pan = user.PAN;                   
         setSavedProfileLink(user.link);                   
       }      
     }); 
@@ -134,21 +134,21 @@ function Dashboard(props) {
 
   function validForm(chkUser){   
     var isValid= true; 
-    if(chkUser.employeeName!=undefined && chkUser.employeeName != "" && chkUser.employeeName.match(/^[a-zA-Z ]*$/)){    
+    if(chkUser.EmployeeName!=undefined && chkUser.EmployeeName != "" && chkUser.EmployeeName.match(/^[a-zA-Z ]*$/)){    
       setValidEmp(true);
     } 
     else{
         setValidEmp(false);
         isValid =false;
     }  
-    if(chkUser.email!=undefined && chkUser.email != "" && chkUser.email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/)){    
+    if(chkUser.Email!=undefined && chkUser.Email != "" && chkUser.Email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/)){    
       setValidEmail(true);
     } 
     else{
         setValidEmail(false);
         isValid =false;
     }    
-    if(chkUser.password!=undefined && chkUser.password != "" && chkUser.password.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,64}$/)){                            
+    if(chkUser.Password!=undefined && chkUser.Password != "" && chkUser.Password.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,64}$/)){                            
         setValidPassword(true);      
     } 
     else
@@ -156,7 +156,7 @@ function Dashboard(props) {
         setValidPassword(false);   
         isValid =false;   
     }        
-    if(chkUser.pan!=undefined && chkUser.pan != "" && chkUser.pan.match(/^([a-zA-Z]{5})([0-9]{4})([a-zA-Z]{1})$/))
+    if(chkUser.PAN!=undefined && chkUser.PAN != "" && chkUser.PAN.match(/^([a-zA-Z]{5})([0-9]{4})([a-zA-Z]{1})$/))
       setValidPan(true);  
     else{
         setValidPan(false);

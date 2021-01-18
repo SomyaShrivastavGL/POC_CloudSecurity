@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Business_Api.Migrations
 {
     [DbContext(typeof(EmployeeDBContext))]
-    [Migration("20201212061851_ABCD")]
-    partial class ABCD
+    [Migration("20210115072844_ABC")]
+    partial class ABC
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,20 +32,29 @@ namespace Business_Api.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsLocked")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("LastLogin")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("LastUpdateComment")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PAN")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("PAN")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<byte[]>("Password")
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ProfileLink")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProfilePicturePath")
                         .HasColumnType("nvarchar(max)");
@@ -86,6 +95,45 @@ namespace Business_Api.Migrations
                     b.HasIndex("EmployeeEmail");
 
                     b.ToTable("EmployeeResumes");
+                });
+
+            modelBuilder.Entity("Models.Data.Roles", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("Models.Data.UserRoles", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RolesID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Models.Data.EmployeeResume", b =>

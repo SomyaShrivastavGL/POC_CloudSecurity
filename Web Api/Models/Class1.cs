@@ -9,6 +9,8 @@ namespace Models
         public string Email { get; set; }
         public string ProfilePicture { get; set; }
        public string PAN { get; set; }
+       public string ProfileLink { get; set; }
+       public string LastUpdateComment { get; set; }
 
 
     }

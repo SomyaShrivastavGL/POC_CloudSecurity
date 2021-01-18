@@ -38,7 +38,22 @@ export const userLoginAsync = (username, password) => async dispatch => {
     return;
   }
 
-  dispatch(verifyUserSuccess(result.data));
+if(result.data!=null && result.data.isSuccessStatusCode)
+{
+  const userInfo = await userGetService(username);
+  if(userInfo.data!=null)
+  {
+    var user={
+      EmployeeName: userInfo.data.name,
+      Email:userInfo.data.email,
+      PAN: userInfo.data.pan,
+      Password: userInfo.data.password
+    }
+    var data={ token:result.data.requestMessage.headers[1].Value[0], expiredAt:null, user:user}
+  dispatch(verifyUserSuccess(data));
+}
+}
+  
 }
 
 // handle user get

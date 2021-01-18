@@ -13,7 +13,7 @@ using DBLayer.Repo.Implementation;
 using Models.Data;
 using DBLayer.Repo.Interfaces;
 using Newtonsoft.Json;
-
+using Microsoft.Extensions.Configuration;
 namespace Business_Api.Controllers
 {
     [Authorize]
@@ -21,9 +21,14 @@ namespace Business_Api.Controllers
     [ApiController]
     public class UserController:ControllerBase
     {
+        private string _configurationKey;
+        private string _configurationVector;
         private IEmployeeRepo _employeeRepo;
-        public UserController(IEmployeeRepo employeeRepo)
+        
+        public UserController(IEmployeeRepo employeeRepo, IConfiguration configurations)
         {
+            _configurationKey = configurations.GetSection("MySettings").GetSection("Key").Value;
+            _configurationVector = configurations.GetSection("MySettings").GetSection("Vector").Value;
             _employeeRepo = employeeRepo;
         }
 
@@ -39,10 +44,21 @@ namespace Business_Api.Controllers
         }
 
         [HttpPost("GetEmployee")]
-        public async Task<ActionResult<Employee>> GetEmployee(string email)
+        public async Task<ActionResult<Users>> GetEmployee(string email)
         {
             var employeeDetail = await _employeeRepo.GetEmployee(email);
-            return employeeDetail;
+
+            Users user = new Users();
+
+            user.Email = employeeDetail.Email;
+            user.EmployeeName = employeeDetail.Name;
+            user.PAN = DecryptPassword(employeeDetail.PAN);
+            user.Password = DecryptPassword(employeeDetail.Password);
+            user.ProfilePicture = employeeDetail.ProfilePicturePath;
+            user.LastUpdateComment = employeeDetail.LastUpdateComment;
+            user.ProfileLink = employeeDetail.ProfileLink;
+
+            return user;
         }
 
         [HttpPost("LoginEmployee")]
@@ -59,8 +75,6 @@ namespace Business_Api.Controllers
                 }
             }
 
-
-
             return HttpStatusCode.NotFound;
         }
 
@@ -76,8 +90,10 @@ namespace Business_Api.Controllers
                 employee.CreationTimeStamp = DateTime.UtcNow;
                 employee.IsActive = true;
                 employee.IsLocked = false;
-                employee.PAN = user.PAN;
+                employee.PAN = EncryptedPassword(user.PAN); 
                 employee.ProfilePicturePath = user.ProfilePicture;
+                employee.LastUpdateComment = user.LastUpdateComment;
+                employee.ProfileLink = user.ProfileLink;
                 var hasAdded = await _employeeRepo.Add(employee);
 
                 if (hasAdded > 0)
@@ -102,7 +118,7 @@ namespace Business_Api.Controllers
                 employee.Password = EncryptedPassword(user.Password);
                 employee.Email = user.Email;
                 employee.UpdateTimeStamp = DateTime.UtcNow;
-                employee.PAN = user.PAN;
+                employee.PAN = EncryptedPassword(user.PAN);
                 employee.ProfilePicturePath = user.ProfilePicture;
                 var hasUpdated = await _employeeRepo.Update(employee);
 
@@ -140,8 +156,9 @@ namespace Business_Api.Controllers
         {
             using (RijndaelManaged myRijndael = new RijndaelManaged())
             {
-                myRijndael.Key = new byte[32] { 118, 123, 23, 17, 161, 152, 35, 68, 126, 213, 16, 115, 68, 217, 58, 108, 56, 218, 5, 78, 28, 128, 113, 208, 61, 56, 10, 87, 187, 162, 233, 38 };
-                myRijndael.IV = new byte[16] { 33, 241, 14, 16, 103, 18, 14, 248, 4, 54, 18, 5, 60, 76, 16, 191 };
+
+                myRijndael.Key = Convert.FromBase64String(_configurationKey);
+                myRijndael.IV = Convert.FromBase64String(_configurationVector);
                 return EncryptStringToBytes(password, myRijndael.Key, myRijndael.IV);
             }
         }
@@ -150,8 +167,8 @@ namespace Business_Api.Controllers
         {
             using (RijndaelManaged myRijndael = new RijndaelManaged())
             {
-                myRijndael.Key = new byte[32] { 118, 123, 23, 17, 161, 152, 35, 68, 126, 213, 16, 115, 68, 217, 58, 108, 56, 218, 5, 78, 28, 128, 113, 208, 61, 56, 10, 87, 187, 162, 233, 38 };
-                myRijndael.IV = new byte[16] { 33, 241, 14, 16, 103, 18, 14, 248, 4, 54, 18, 5, 60, 76, 16, 191 };
+                myRijndael.Key = Convert.FromBase64String(_configurationKey);
+                myRijndael.IV = Convert.FromBase64String(_configurationVector);
 
                 return DecryptStringFromBytes(password, myRijndael.Key, myRijndael.IV);
             }

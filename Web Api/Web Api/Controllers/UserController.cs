@@ -21,7 +21,7 @@ namespace Web_Api.Controllers
     {
         private string businessurl = "https://localhost:44394/api/User/";
 
-        [HttpGet("Login")]
+        [HttpPost("Login")]
         public HttpResponseMessage LoginEmployee(Users user)
         {
             var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(user);
@@ -36,7 +36,7 @@ namespace Web_Api.Controllers
 
 
         [HttpGet("GetEmployee")]
-        public Employee GetEmployee(string email) 
+        public Users GetEmployee(string email) 
         {
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(string.Format(businessurl + "GetEmployee?email={0}", email));
             webRequest.ContentType = "application/x-www-form-urlencoded";
@@ -56,7 +56,7 @@ namespace Web_Api.Controllers
             StreamReader streamreader = new StreamReader(stream);
             string returnResult = streamreader.ReadToEnd();
 
-            var returnItems = Newtonsoft.Json.JsonConvert.DeserializeObject<Employee>(returnResult);
+            var returnItems = Newtonsoft.Json.JsonConvert.DeserializeObject<Users>(returnResult);
             return returnItems;
         }
 
