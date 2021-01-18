@@ -9,7 +9,7 @@ import { setAuthToken } from './../services/auth';
 import { getUserListService } from './../services/user';
 
 function Dashboard(props) {
-
+  const URL = require('url-parse') 
   const dispatch = useDispatch();
   const authObj = useSelector(state => state.auth);
 
@@ -19,6 +19,9 @@ function Dashboard(props) {
   var password = useFormInput(user.password);  
   var email = useFormInput(user.email);
   var pan = useFormInput(user.pan);
+  var profileLink = useFormInput(user.profileLink);
+  var comment = useFormInput(""); 
+  var profileLink = useFormInput("");
   
   const[ profilePic, setProfilePic] = useState('');
   const[ profilePicFile, setProfilePicFile] = useState('');
@@ -26,31 +29,71 @@ function Dashboard(props) {
   const[ validEmail, setValidEmail] = useState(true);
   const[ validPassword, setValidPassword] = useState(true);  
   const[ validPAN, setValidPan] = useState(true);  
-  
+  const[ validComment, setValidComment] = useState(true);  
+  const[ savedComment, setSavedComment] = useState("");  
+  const[ validProfileLink, setValidProfileLink] = useState(true);  
+  const[ updatedProfileLink, setSavedProfileLink] = useState("");  
+
   // handle button click of update form
   const getCurrentUser = () => {        
     dispatch(userGetAsync(user.email))
-    .then((response)=>{
-      if(user.isAdminUser){
-        props.history.push('/admin');
-      } 
+    .then((response)=>{     
       if(validForm(user)){
         employeeName = user.employeeName;
         email = user.email;
         password = user.password;
-        pan = user.pan;                   
+        pan = user.pan;  
+        setSavedProfileLink(user.link);                   
       }      
     }); 
   }  
 
   // handle button click of update form
   const handleUpdate = () => {    
-    var updateUser ={employeeName:employeeName.value, password:password.value, email:email.value, pan:pan.value, profilePic:profilePicFile} ;    
-    if(validForm(updateUser)){
-      dispatch(profileUpdateAsync(updateUser))
-      .then((response)=>{
-        props.history.push('/login');
-      }); }
+    debugger;
+    var updateUser ={employeeName:employeeName.value, password:password.value, email:email.value, 
+      pan:pan.value, profilePic:profilePicFile, profileLink: updatedProfileLink, lastUpdateComment: savedComment};    
+    if(validForm(updateUser)){    
+        dispatch(profileUpdateAsync(updateUser))
+        .then((response)=>{
+          props.history.push('/login');
+        }); 
+      }        
+  }
+
+  // handle button click of save profile link button
+  const handleProfileLinkSave = () => {        
+    if(profileLink.value != undefined && profileLink.value != ""){ //&& isSafe(profileLink.value)
+      setValidProfileLink(true);
+      setSavedProfileLink(profileLink.value); 
+    }      
+    else{
+      setValidProfileLink(false);
+    }      
+  }
+
+  function isSafe(url) {   
+    var chkUrl = URL(url);    
+    if (chkUrl.protocol === 'javascript:') return false
+    if (chkUrl.protocol === '') return false
+    return true
+  }
+
+  // handle button click of save comment button
+  const handleComment = () => {        
+    if(comment.value != undefined && comment.value != ""){
+      setValidComment(true);
+      setSavedComment(htmlEncode(comment.value)); 
+    }      
+    else{
+      setValidComment(false);
+    }      
+  }
+
+  function htmlEncode(str){
+    return String(str).replace(/[^\w. ]/gi, function(c){
+       return '&#'+c.charCodeAt(0)+';';
+    });
   }
 
   const redirectToAdmin = () => {
@@ -118,7 +161,13 @@ function Dashboard(props) {
     else{
         setValidPan(false);
         isValid =false;
-    }         
+    }
+    if(profileLink!=undefined && profileLink != "")
+      setValidProfileLink(true);  
+    else{
+      setValidProfileLink(false);
+      isValid =false;
+    }      
     return isValid;
   }
   
@@ -141,33 +190,36 @@ function Dashboard(props) {
   return (
     <div className="subHeading centerDiv centerText">    
     Profile<br /><br /> 
-      <div className="fields centerDiv centerText ">      
-     <b> Welcome {user.employeeName}!</b><br /><br />
+    <b> Welcome {user.employeeName}!</b><br />
+      <div className="fields centerDiv centerText ">           
       <table>
         <tr>
           <td>
               <div className="alignTop centerText">
                 <div className="fields ">
-                  Employee Name<br />
+                  <b>Employee Name</b><br />
                   <input type="text" {...employeeName} /> <br/>                               
                   <label className="warningMsg">{validEmployeeName?"":"Employee name is not valid."}</label> 
                 </div>
                 <div className="fields ">
-                  Email<br />
+                  <b>Email</b><br />
                   <input type="text" {...email} /> <br/>
                   <label className="warningMsg">{validEmail?"":"Email is not valid."}</label>       
                 </div>
                 <div className="fields ">
-                  Password<br />
+                  <b>Password</b><br />
                   <input type="password" {...password} /> <br/>
                   <label className="warningMsg">{validPassword?"":"Password is not valid."}</label>       
                 </div>      
                 <div className="fields ">
-                  PAN<br />
+                  <b>PAN</b><br />
                   <input type="text" {...pan} /> <br/>
                   <label className="warningMsg">{validPAN?"":"PAN is not valid."}</label>       
                 </div>
-                    
+                <div className="fields">
+                <b>Profile Link</b> <br/>
+                <a href={updatedProfileLink} target="_blank">Check out Profile</a><br/>
+              </div>
           </div>
           </td>
           <td>
@@ -176,13 +228,40 @@ function Dashboard(props) {
                 <img className="ProfilePicture" src={profilePic}/><br/> 
                 <label>{profilePic?"Available":"Not Available"}</label>                                     
               </div>
-              <div className="fields centerText">                  
+              <div className="fields">                  
                   <input type="file" {...profilePic} name="profilePicture" onChange={handleProfilePicChange}/>        
               </div>
+              
+          </td>
+        </tr>
+        <tr className="userListTRow">
+          <td colSpan="2">                        
+            Update Profile Link : <label className="warningMsg">{validProfileLink?"":"Please enter a valid link."}</label><br/>
+            <input type="textarea" className="fullWidth" {...profileLink} /> 
+            <input className="actionBtn"
+              type="button"
+              style={{ marginTop: 10 }}
+              value="Save Link"
+              onClick={handleProfileLinkSave}
+              disabled={profileUpdating} /> <br/>            
+          </td>
+        </tr>
+        <tr className="userListTRow">
+          <td colSpan="2" className="fields">
+            Comment <label className="warningMsg">*</label> <label className="warningMsg">{validComment?"":"Please enter a comment."}</label><br/>
+            <input type="textarea" className="fullWidth" {...comment} /> 
+            <input className="actionBtn"
+              type="button"
+              style={{ marginTop: 10 }}
+              value="Save Comment"
+              onClick={handleComment}
+              disabled={profileUpdating} />           
           </td>
         </tr>
         <tr>
-          <td colSpan="2">
+          <td colSpan="2">          
+          <b>Update Comment :</b> <br/>
+          <div dangerouslySetInnerHTML={{"__html": savedComment}} /> <br/>          
           <input className="actionBtn"
               type="button"
               style={{ marginTop: 10 }}
@@ -193,8 +272,9 @@ function Dashboard(props) {
           </td>
         </tr>
       </table>  
-      </div>                      
+      </div>                         
       <div className="centerDiv">
+        <input className="actionBtn" type="button" onClick={redirectToAdmin} value="Admin View" hidden={!user.isAdminUser}/> 
         <input className="actionBtn" type="button" onClick={handleLogout} value="Logout" /><br /><br />
       </div>
     </div>

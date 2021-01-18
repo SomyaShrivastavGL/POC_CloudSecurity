@@ -32,13 +32,13 @@ export const userLoginService = async (username, password) => {
   } catch (err) {    
     if(username == 'test' && password=='test')
     {
-      var testUser = {employeeName:"testUser", email:"testUser@testing.com", password: "Test@123", pan:"TESTR1234T", isAdminUser: false}
+      var testUser = {employeeName:"testUser", email:"testUser@testing.com", password: "Test@123", pan:"TESTR1234T", link:"https://glo.globallogic.com/users/profile/somya.shrivastav", isAdminUser: false}
       return { data:{ token:"test", expiredAt:"test", user:testUser}
       };
     }
     else if(username == 'admin' && password=='admin')
     {
-      var adminUser = {employeeName:"adminUser", email:"adminUser@administartion.com", password: "Admin@123", pan:"ADMIN1234T", isAdminUser: true}
+      var adminUser = {employeeName:"adminUser", email:"adminUser@administartion.com", password: "Admin@123", pan:"ADMIN1234T", link:"https://glo.globallogic.com/users/profile/somya.shrivastav", isAdminUser: true}
       return { data:{ token:"admin", expiredAt:"admin", user:adminUser}
       };
     }
