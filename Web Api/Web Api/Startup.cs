@@ -50,6 +50,7 @@ namespace Web_Api
             app.UseHttpsRedirection();
             app.UseCors(AllowSpecificPolicy);
             app.UseRouting();
+            app.UseAuthenticationHandler();
             app.UseAuthentication();
             app.UseAuthorization();
 
