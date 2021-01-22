@@ -9,11 +9,11 @@ namespace Web_Api.Helper
 {
     public static class EncryptHelper
     {
+        
         public static string ToBase64String(this string input)
         {
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(input)).TrimEnd('=').Replace('+', '-').Replace('/', '_');
         }
-
         public static string ToBase64String(this byte[] input)
         {
             return Convert.ToBase64String(input).TrimEnd('=').Replace('+', '-').Replace('/', '_');

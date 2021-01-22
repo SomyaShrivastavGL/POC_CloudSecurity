@@ -91,9 +91,10 @@ namespace Web_Api.Handlers
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception("Session Not Found");
-                    }                  
+                        throw new Exception("Session Not Found" + ex.Message);
+                    }
                 }
+                await _next(context);
             }
             catch (Exception ex)
             {

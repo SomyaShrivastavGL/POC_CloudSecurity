@@ -35,44 +35,12 @@ namespace Business_Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            SetupJWTServices(services);
             services.AddControllers();
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
             services.AddDbContextPool<EmployeeDBContext>(
            options => options.UseSqlServer(Configuration.GetConnectionString("EmployeeDBConnection"), b => b.MigrationsAssembly("Business Api")));
             services.AddTransient<IEmployeeRepo, EmployeeRepo>();
-        }
-
-        private void SetupJWTServices(IServiceCollection services)
-        {
-            string key = AESServices.UserHmacKey(Constants.UserNumber, 3); //this should be same which is used while creating token      
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-          .AddJwtBearer(options =>
-          {
-              options.TokenValidationParameters = new TokenValidationParameters
-              {
-                  ValidateIssuer = true,
-                  ValidateAudience = true,
-                  ValidateIssuerSigningKey = true,
-                  ValidIssuer = Constants.Issuer,
-                  ValidAudience = Constants.Audience,
-                  IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
-              };
-
-              options.Events = new JwtBearerEvents
-              {
-                  OnAuthenticationFailed = context =>
-                  {
-                      if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-                      {
-                          context.Response.Headers.Add("Token-Expired", "true");
-                      }
-                      return Task.CompletedTask;
-                  }
-              };
-          });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

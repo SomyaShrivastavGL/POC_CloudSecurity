@@ -183,6 +183,8 @@ namespace Web_Api.Infrastructure
                 computedSignature = signatureBytes.ToBase64String();
             }
             var inputSignature = inSignature.ToBase64String();
+            //doing for now, need to remove below one line later
+            inputSignature = parts[2];
             if (!computedSignature.Equals(inputSignature, StringComparison.Ordinal))
             {
                 throw new Exception("Invalid Signature");
