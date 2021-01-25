@@ -44,7 +44,7 @@ if(result.data!=null && result.data.isSuccessStatusCode)
   if(userInfo.data!=null)
   {
     var user={
-      EmployeeName: userInfo.data.name,
+      EmployeeName: userInfo.data.employeeName,
       Email:userInfo.data.email,
       PAN: userInfo.data.pan,
       Password: userInfo.data.password

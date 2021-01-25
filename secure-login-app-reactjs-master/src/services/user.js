@@ -59,7 +59,7 @@ export const userGetService = async (email) => {
 // user login API to validate the credential
 export const profileUpdateService = async (user) => {
   try {    
-    return await axios.post(`${API_URL}/user/update`, user );
+    return await axios.post(`${API_URL}/user/UpdateEmployee`, user );
   } catch (err) {      
     if( err.response == null || err.response == undefined )
     {

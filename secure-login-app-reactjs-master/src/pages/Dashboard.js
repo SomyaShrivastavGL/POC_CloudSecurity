@@ -9,7 +9,7 @@ import { setAuthToken } from './../services/auth';
 import { getUserListService } from './../services/user';
 
 function Dashboard(props) {
-  const URL = require('url-parse') 
+  const URLConvert = require('url-parse') 
   const dispatch = useDispatch();
   const authObj = useSelector(state => state.auth);
 
@@ -36,16 +36,11 @@ function Dashboard(props) {
 
   // handle button click of update form
   const getCurrentUser = () => {        
-    dispatch(userGetAsync(user.Email))
-    .then((response)=>{     
-      if(validForm(user)){
-        employeeName = user.EmployeeName;
-        email = user.Email;
-        password = user.Password;
-        pan = user.PAN;                   
-        setSavedProfileLink(user.link);                   
-      }      
-    }); 
+    employeeName = user.EmployeeName;
+    email = user.Email;
+    password = user.Password;
+    pan = user.PAN;                   
+    setSavedProfileLink(user.link);  
   }  
 
   // handle button click of update form
@@ -63,7 +58,7 @@ function Dashboard(props) {
 
   // handle button click of save profile link button
   const handleProfileLinkSave = () => {        
-    if(profileLink.value != undefined && profileLink.value != ""){ //&& isSafe(profileLink.value)
+    if(profileLink.value != undefined && profileLink.value != "" && isSafe(profileLink.value)){
       setValidProfileLink(true);
       setSavedProfileLink(profileLink.value); 
     }      
@@ -73,7 +68,7 @@ function Dashboard(props) {
   }
 
   function isSafe(url) {   
-    var chkUrl = URL(url);    
+    var chkUrl = URLConvert(url);    
     if (chkUrl.protocol === 'javascript:') return false
     if (chkUrl.protocol === '') return false
     return true
@@ -134,21 +129,21 @@ function Dashboard(props) {
 
   function validForm(chkUser){   
     var isValid= true; 
-    if(chkUser.EmployeeName!=undefined && chkUser.EmployeeName != "" && chkUser.EmployeeName.match(/^[a-zA-Z ]*$/)){    
+    if(chkUser.employeeName!=undefined && chkUser.employeeName != "" && chkUser.employeeName.match(/^[a-zA-Z ]*$/)){    
       setValidEmp(true);
     } 
     else{
         setValidEmp(false);
         isValid =false;
     }  
-    if(chkUser.Email!=undefined && chkUser.Email != "" && chkUser.Email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/)){    
+    if(chkUser.email!=undefined && chkUser.email != "" && chkUser.email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/)){    
       setValidEmail(true);
     } 
     else{
         setValidEmail(false);
         isValid =false;
     }    
-    if(chkUser.Password!=undefined && chkUser.Password != "" && chkUser.Password.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,64}$/)){                            
+    if(chkUser.password!=undefined && chkUser.password != "" && chkUser.password.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,64}$/)){                            
         setValidPassword(true);      
     } 
     else
@@ -156,7 +151,7 @@ function Dashboard(props) {
         setValidPassword(false);   
         isValid =false;   
     }        
-    if(chkUser.PAN!=undefined && chkUser.PAN != "" && chkUser.PAN.match(/^([a-zA-Z]{5})([0-9]{4})([a-zA-Z]{1})$/))
+    if(chkUser.pan!=undefined && chkUser.pan != "" && chkUser.pan.match(/^([a-zA-Z]{5})([0-9]{4})([a-zA-Z]{1})$/))
       setValidPan(true);  
     else{
         setValidPan(false);
