@@ -24,16 +24,18 @@ namespace Web_Api.Controllers
         [HttpPost("Login")]
         public HttpResponseMessage LoginEmployee(Users user)
         {
-            var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(user);
+            var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(user);           
+            return CheckUser(user);
+        }
 
+        public HttpResponseMessage CheckUser(Users user)
+        {
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", "aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw");
-            HttpResponseMessage response = client.PostAsJsonAsync(businessurl + "LoginEmployee", user).Result;
-            return response;
+            return client.PostAsJsonAsync(businessurl + "LoginEmployee", user).Result;
         }
-
 
         [HttpGet("GetEmployee")]
         public Users GetEmployee(string email) 
