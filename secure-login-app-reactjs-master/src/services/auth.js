@@ -1,7 +1,8 @@
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
-const API_URL = 'https://localhost:5001/api';
+//const API_URL = 'https://localhost:5001/api';
+const API_URL = 'http://localhost:4000';
 
 
 axios.defaults.headers.common['Authorization'] = `Basic aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw`; 

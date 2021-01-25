@@ -41,6 +41,11 @@ function Dashboard(props) {
     password = user.Password;
     pan = user.PAN;                   
     setSavedProfileLink(user.link);  
+        password = user.password;
+        pan = user.pan;  
+        setSavedProfileLink(user.link);                   
+      }      
+    }); 
   }  
 
   // handle button click of update form
@@ -58,7 +63,7 @@ function Dashboard(props) {
 
   // handle button click of save profile link button
   const handleProfileLinkSave = () => {        
-    if(profileLink.value != undefined && profileLink.value != "" && isSafe(profileLink.value)){
+    if(profileLink.value != undefined && profileLink.value != ""){ //&& isSafe(profileLink.value)
       setValidProfileLink(true);
       setSavedProfileLink(profileLink.value); 
     }      
