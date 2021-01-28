@@ -36,14 +36,14 @@ namespace Business_Api.Controllers
         /// Size of hash.
         /// </summary>
         private const int HashSize = 20;
-        [HttpGet("GetEmployees")]
+        [HttpGet("GetEmployeesInfo")]
         public async  Task<ActionResult<IEnumerable<Employee>>> GetEmployees() 
         {
            var employeeDetails= await _employeeRepo.GetAll();
             return employeeDetails.ToList();
         }
 
-        [HttpPost("GetEmployee")]
+        [HttpPost("GetEmployeeInfo")]
         public async Task<ActionResult<Users>> GetEmployee(string email)
         {
             var employeeDetail = await _employeeRepo.GetEmployee(email);
@@ -78,8 +78,8 @@ namespace Business_Api.Controllers
             return HttpStatusCode.NotFound;
         }
 
-        [HttpPost("AddEmployee")]
-        public async Task<ActionResult<int>> SaveUser(Users user)
+        [HttpPost("AddEmployees")]
+        public async Task<ActionResult<int>> SaveUsers(Users user)
         {
             try
             {
@@ -108,7 +108,7 @@ namespace Business_Api.Controllers
             return 0;
         }
 
-        [HttpPost("UpdateEmployee")]
+        [HttpPost("UpdateEmployees")]
         public async Task<ActionResult<int>> UpdateEmployee(Users user)
         {
             try
