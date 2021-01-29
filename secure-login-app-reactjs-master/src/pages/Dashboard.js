@@ -40,12 +40,7 @@ function Dashboard(props) {
     email = user.Email;
     password = user.Password;
     pan = user.PAN;                   
-    setSavedProfileLink(user.link);  
-        password = user.password;
-        pan = user.pan;  
-        setSavedProfileLink(user.link);                   
-      }      
-    }); 
+    setSavedProfileLink(user.link);                                        
   }  
 
   // handle button click of update form
