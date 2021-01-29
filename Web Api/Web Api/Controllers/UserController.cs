@@ -40,7 +40,7 @@ namespace Web_Api.Controllers
         [HttpGet("GetEmployee")]
         public Users GetEmployee(string email) 
         {
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(string.Format(businessurl + "GetEmployee?email={0}", email));
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(string.Format(businessurl + "GetEmployeeInfo?email={0}", email));
             webRequest.ContentType = "application/x-www-form-urlencoded";
             webRequest.Headers.Add("Authorization", "Basic aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw");
             webRequest.Method = WebRequestMethods.Http.Post;
@@ -66,7 +66,7 @@ namespace Web_Api.Controllers
         [HttpGet("GetEmployees")]
         public IEnumerable<Employee> GetEmployees()
         {
-            WebRequest obj = WebRequest.Create(businessurl + "GetEmployees");
+            WebRequest obj = WebRequest.Create(businessurl + "GetEmployeesInfo");
             obj.Method = "Get";
             HttpWebResponse respo = null;
             obj.Headers.Add("Authorization", "Basic aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw");
@@ -90,7 +90,7 @@ namespace Web_Api.Controllers
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Authorization=new AuthenticationHeaderValue("Basic", "aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw");
-            HttpResponseMessage response = client.PostAsJsonAsync(businessurl + "AddEmployee", user).Result;
+            HttpResponseMessage response = client.PostAsJsonAsync(businessurl + "AddEmployees", user).Result;
             return response;
         }
         [HttpPost("UpdateEmployee")]
@@ -100,7 +100,7 @@ namespace Web_Api.Controllers
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", "aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw");
-            HttpResponseMessage response = client.PostAsJsonAsync(businessurl + "UpdateEmployee", user).Result;
+            HttpResponseMessage response = client.PostAsJsonAsync(businessurl + "UpdateEmployees", user).Result;
             return response;
         }
     }
