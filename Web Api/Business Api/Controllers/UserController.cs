@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
 namespace Business_Api.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController:ControllerBase

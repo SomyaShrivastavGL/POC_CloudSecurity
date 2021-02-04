@@ -20,6 +20,7 @@ namespace Web_Api.Infrastructure
         private const string Header_Audience = "aud";
         private const string Header_TimeOut = "to";
         public const string JWT_ID = "JWT";
+        public const string Authorization = "Authorization";
         private byte[] signKeyBytes;
 
         private string mCachedJWTString = String.Empty;

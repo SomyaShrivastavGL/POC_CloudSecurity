@@ -36,8 +36,8 @@ namespace Business_Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddAuthentication("BasicAuthentication")
-                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+            //services.AddAuthentication("BasicAuthentication")
+            //    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
             services.AddDbContextPool<EmployeeDBContext>(
            options => options.UseSqlServer(Configuration.GetConnectionString("EmployeeDBConnection"), b => b.MigrationsAssembly("Business Api")));
             services.AddTransient<IEmployeeRepo, EmployeeRepo>();

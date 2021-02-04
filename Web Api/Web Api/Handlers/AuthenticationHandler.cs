@@ -75,8 +75,8 @@ namespace Web_Api.Handlers
                     var headers = context.Request.Headers;
                     string token = string.Empty;
 
-                    if (headers.ContainsKey(JWTToken.JWT_ID))
-                        token = headers[JWTToken.JWT_ID].First();
+                    if (headers.ContainsKey(JWTToken.Authorization))
+                        token = headers[JWTToken.Authorization].First();
                     try
                     {
                         var hmacKey = AESServices.UserHmacKey(Constants.UserNumber, 3);
