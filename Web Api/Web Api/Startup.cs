@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Web_Api.Handlers;
+using Web_Api.Security;
 
 namespace Web_Api
 {
@@ -33,10 +35,14 @@ namespace Web_Api
                 });
             });
             services.AddControllers();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+                options.ClaimsIssuer = Constants.Issuer;
+                options.Audience = Constants.Audience;
+            });
             services.AddMvc();
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-Token");
-            services.AddAuthentication("BasicAuthentication")
-                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+            //services.AddAuthentication("BasicAuthentication")
+            //    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
