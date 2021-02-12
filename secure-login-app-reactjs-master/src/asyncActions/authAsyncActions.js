@@ -47,7 +47,10 @@ if(result.data!=null && result.data.isSuccessStatusCode)
       EmployeeName: userInfo.data.employeeName,
       Email:userInfo.data.email,
       PAN: userInfo.data.pan,
-      Password: userInfo.data.password
+      Password: userInfo.data.password,
+      ProfilePicture: userInfo.data.profilePicture,
+      ProfileLink: userInfo.data.profileLink,
+      IsAdmin: userInfo.data.isAdmin
     }
     var data={ token:result.data.requestMessage.headers[1].Value[0], expiredAt:null, user:user}
   dispatch(verifyUserSuccess(data));

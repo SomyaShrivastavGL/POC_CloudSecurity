@@ -11,6 +11,7 @@ namespace Models
        public string PAN { get; set; }
        public string ProfileLink { get; set; }
        public string LastUpdateComment { get; set; }
+        public bool IsAdmin { get; set; }
 
 
     }

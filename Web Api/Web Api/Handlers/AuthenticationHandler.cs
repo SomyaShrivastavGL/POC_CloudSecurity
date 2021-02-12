@@ -28,7 +28,7 @@ namespace Web_Api.Handlers
                 new List<string>() { HttpMethod.Get.Method }
             },
             {
-                 "/api/AuthToken",
+                 "/api/user/Login",
                  new List<string>() { HttpMethod.Post.Method }
             },
             {

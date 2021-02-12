@@ -40,14 +40,14 @@ function Dashboard(props) {
     email = user.Email;
     password = user.Password;
     pan = user.PAN;                   
-    setSavedProfileLink(user.link);                                        
+    setSavedProfileLink(user.ProfileLink);    
+    setProfilePic(user.ProfilePicture);                                    
   }  
 
   // handle button click of update form
-  const handleUpdate = () => {    
-    debugger;
+  const handleUpdate = () => {        
     var updateUser ={employeeName:employeeName.value, password:password.value, email:email.value, 
-      pan:pan.value, profilePic:profilePicFile, profileLink: updatedProfileLink, lastUpdateComment: savedComment};    
+      pan:pan.value, profilePicture:profilePicFile, profileLink: updatedProfileLink, lastUpdateComment: savedComment};    
     if(validForm(updateUser)){    
         dispatch(profileUpdateAsync(updateUser))
         .then((response)=>{
@@ -58,8 +58,8 @@ function Dashboard(props) {
 
   // handle button click of save profile link button
   const handleProfileLinkSave = () => {        
-    if(profileLink.value != undefined && profileLink.value != ""){ //&& isSafe(profileLink.value)
-      setValidProfileLink(true);
+    if(profileLink.value != undefined && profileLink.value != "" && isSafe(profileLink.value) ){
+      setValidProfileLink(true);      
       setSavedProfileLink(profileLink.value); 
     }      
     else{
@@ -92,7 +92,7 @@ function Dashboard(props) {
   }
 
   const redirectToAdmin = () => {
-    if(user.isAdminUser){
+    if(user.IsAdmin){
       props.history.push('/admin');
     }
   }
@@ -161,6 +161,12 @@ function Dashboard(props) {
       setValidProfileLink(true);  
     else{
       setValidProfileLink(false);
+      isValid =false;
+    }      
+    if(savedComment!=undefined && savedComment != "")
+      setValidComment(true);  
+    else{
+      setValidComment(false);
       isValid =false;
     }      
     return isValid;
@@ -269,7 +275,7 @@ function Dashboard(props) {
       </table>  
       </div>                         
       <div className="centerDiv">
-        <input className="actionBtn" type="button" onClick={redirectToAdmin} value="Admin View" hidden={!user.isAdminUser}/> 
+        <input className="actionBtn" type="button" onClick={redirectToAdmin} value="Admin View" hidden={!user.IsAdmin}/> 
         <input className="actionBtn" type="button" onClick={handleLogout} value="Logout" /><br /><br />
       </div>
     </div>

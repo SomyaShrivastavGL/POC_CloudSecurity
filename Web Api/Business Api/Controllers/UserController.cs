@@ -57,6 +57,7 @@ namespace Business_Api.Controllers
             user.ProfilePicture = employeeDetail.ProfilePicturePath;
             user.LastUpdateComment = employeeDetail.LastUpdateComment;
             user.ProfileLink = employeeDetail.ProfileLink;
+            user.IsAdmin = employeeDetail.IsAdmin;
 
             return user;
         }
@@ -120,6 +121,8 @@ namespace Business_Api.Controllers
                 employee.UpdateTimeStamp = DateTime.UtcNow;
                 employee.PAN = EncryptedPassword(user.PAN);
                 employee.ProfilePicturePath = user.ProfilePicture;
+                employee.ProfileLink = user.ProfileLink;
+                employee.LastUpdateComment = user.LastUpdateComment;
                 var hasUpdated = await _employeeRepo.Update(employee);
 
                 if (hasUpdated > 0)
