@@ -37,6 +37,10 @@ namespace Web_Api.Controllers
             return client.PostAsJsonAsync(businessurl + "LoginEmployee", user).Result;
         }
 
+        public Users GetAuthorizationEmployee(string emailID)
+        {
+            return GetEmployee(emailID);
+        }
         [HttpGet("GetEmployee")]
         public Users GetEmployee(string email) 
         {
@@ -61,8 +65,6 @@ namespace Web_Api.Controllers
             var returnItems = Newtonsoft.Json.JsonConvert.DeserializeObject<Users>(returnResult);
             return returnItems;
         }
-
-        
         [HttpGet("GetEmployees")]
         public IEnumerable<Employee> GetEmployees()
         {

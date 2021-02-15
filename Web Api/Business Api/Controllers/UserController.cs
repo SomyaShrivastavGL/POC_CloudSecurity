@@ -63,7 +63,7 @@ namespace Business_Api.Controllers
         }
 
         [HttpPost("LoginEmployee")]
-        public async Task<ActionResult<HttpStatusCode>> LoginEmployee(Users user)
+        public async Task<ActionResult<Users>> LoginEmployee(Users user)
         {
             var employeeDetail = await _employeeRepo.GetEmployee(user.Email);
             if (employeeDetail.IsActive)
@@ -72,11 +72,14 @@ namespace Business_Api.Controllers
 
                 if (password == user.Password)
                 {
-                    return HttpStatusCode.OK;
+                    
+
+                    user.IsAdmin = employeeDetail.IsAdmin;
+                    return user;
                 }
             }
 
-            return HttpStatusCode.NotFound;
+            return user;
         }
 
         [HttpPost("AddEmployees")]
