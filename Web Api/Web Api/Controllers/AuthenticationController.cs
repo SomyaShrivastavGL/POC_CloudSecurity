@@ -22,15 +22,18 @@ namespace Web_Api.Controllers
         {
             UserController userController = new UserController();
             var isUserValid = userController.CheckUser(user);
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            var response = new HttpResponseMessage();
             try
             {
                 if (isUserValid.StatusCode == HttpStatusCode.OK)
                 {
                     var tokenService = new TokenService();
                     var token = tokenService.GenerateJWT(user);
-                    response.Headers.Add(JWTToken.JWT_ID, token.ToString().AESStringEncryption(Constants.UserNumber));
+                    response.Headers.Add(JWTToken.Authorization, token.ToString().AESStringEncryption(Constants.UserNumber));
+                    response.StatusCode = HttpStatusCode.OK;
                 }
+                else
+                    response.StatusCode = HttpStatusCode.NotFound;
                 return response;
             }
             catch(Exception ex)

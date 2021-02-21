@@ -66,7 +66,7 @@ namespace Business_Api.Controllers
         public async Task<ActionResult<HttpStatusCode>> LoginEmployee(Users user)
         {
             var employeeDetail = await _employeeRepo.GetEmployee(user.Email);
-            if (employeeDetail.IsActive)
+            if (employeeDetail!= null && employeeDetail.IsActive)
             {
                 var password = DecryptPassword(employeeDetail.Password);
 
@@ -114,16 +114,17 @@ namespace Business_Api.Controllers
         {
             try
             {
+                var employeeDetail = await _employeeRepo.GetEmployee(user.Email);
                 Employee employee = new Employee();
-                employee.Name = user.EmployeeName;
-                employee.Password = EncryptedPassword(user.Password);
-                employee.Email = user.Email;
-                employee.UpdateTimeStamp = DateTime.UtcNow;
-                employee.PAN = EncryptedPassword(user.PAN);
-                employee.ProfilePicturePath = user.ProfilePicture;
-                employee.ProfileLink = user.ProfileLink;
-                employee.LastUpdateComment = user.LastUpdateComment;
-                var hasUpdated = await _employeeRepo.Update(employee);
+                employeeDetail.Name = user.EmployeeName;
+                employeeDetail.Password = EncryptedPassword(user.Password);
+                employeeDetail.Email = user.Email;
+                employeeDetail.UpdateTimeStamp = DateTime.UtcNow;
+                employeeDetail.PAN = EncryptedPassword(user.PAN);
+                employeeDetail.ProfilePicturePath = user.ProfilePicture;
+                employeeDetail.ProfileLink = user.ProfileLink;
+                employeeDetail.LastUpdateComment = user.LastUpdateComment;            
+                var hasUpdated = await _employeeRepo.Update(employeeDetail);
 
                 if (hasUpdated > 0)
                 {
