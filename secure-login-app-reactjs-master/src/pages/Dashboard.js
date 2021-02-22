@@ -50,8 +50,8 @@ function Dashboard(props) {
       pan:pan.value, profilePicture:profilePicFile, profileLink: updatedProfileLink, lastUpdateComment: savedComment};    
     if(validForm(updateUser)){    
         dispatch(profileUpdateAsync(updateUser))
-        .then((response)=>{
-          props.history.push('/login');
+        .then((response)=>{          
+          dispatch(userLogoutAsync());
         }); 
       }        
   }
@@ -197,16 +197,16 @@ function Dashboard(props) {
         <tr>
           <td>
               <div className="alignTop centerText">
+              <div className="fields ">
+                  <b>Email</b><br />
+                  <input type="text" {...email} disabled="true" /> <br/>
+                  <label className="warningMsg">{validEmail?"":"Email is not valid."}</label>       
+                </div>
                 <div className="fields ">
                   <b>Employee Name</b><br />
                   <input type="text" {...employeeName} /> <br/>                               
                   <label className="warningMsg">{validEmployeeName?"":"Employee name is not valid."}</label> 
-                </div>
-                <div className="fields ">
-                  <b>Email</b><br />
-                  <input type="text" {...email} /> <br/>
-                  <label className="warningMsg">{validEmail?"":"Email is not valid."}</label>       
-                </div>
+                </div>                
                 <div className="fields ">
                   <b>Password</b><br />
                   <input type="password" {...password} /> <br/>

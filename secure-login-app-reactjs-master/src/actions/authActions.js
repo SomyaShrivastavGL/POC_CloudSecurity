@@ -42,7 +42,7 @@ export const userLoginFailure = (error = 'Something went wrong. Please try again
 }
 
 // verify token - success
-export const verifyUserSuccess = ({ token, expiredAt, user }) => {  
+export const verifyUserSuccess = ({ token, expiredAt, user }) => {    
   return {
     type: VERIFY_USER_SUCCESS,
     payload: {
@@ -106,14 +106,14 @@ export const verifyGetUserSuccess = ({ token, expiredAt, user }) => {
   }
 }
 
-// user signUp - start
+// user update - start
 export const profileUpdateStarted = () => {
   return {
     type: PROFILE_UPDATE_STARTED
   }
 }
 
-// user signup - failure
+// user update - failure
 export const profileUpdateFailure = (error = 'Something went wrong. Please try again later.') => {
   return {
     type: PROFILE_UPDATE_FAILURE,
@@ -123,7 +123,7 @@ export const profileUpdateFailure = (error = 'Something went wrong. Please try a
   }
 }
 
-// verify signUp - success
+// verify update - success
 export const verifyProfileUpdateSuccess = () => {  
   return {
     type: VERIFY_PROFILE_UPDATE_SUCCESS    

@@ -31,22 +31,21 @@ function Admin(props) {
     if (result.error) {
       dispatch(verifyTokenEnd());
       if (result.response && [401, 403].includes(result.response.status))
-        dispatch(userLogout());
-      setListItems(result.data.map((d) => 
-      <tr className="userListTRow">
-        <td key={d.Id}><img className="ProfilePictureThumbnail" src={d.profilePicFile}/></td>
-        <td key={d.employeeName}>{d.employeeName}</td>
-        <td key={d.email}>{d.email}</td>
-        <td key={d.pan}>{d.pan}</td>
-        <td key={d.link}> <a href={getSafeUrl(d.link)} target="_blank">Check out Profile</a></td>
-        <td key={d.Id}>
-          <input type="button" style={{ marginTop: 10 }} value="Delete" />
-        </td>
-      </tr>      
-      ));
-      setUserList(result.data);
+        dispatch(userLogout());      
       return;
     }    
+    setListItems(result.data.map((d) => 
+      <tr className="userListTRow">
+        <td key={d.Id}><img className="ProfilePictureThumbnail" src={d.profilePicFile}/></td>
+        <td key={d.employeeName}>{d.name}</td>
+        <td key={d.email}>{d.email}</td>
+        <td key={d.pan}>{d.pan}</td>
+        <td key={d.link}> <a href={getSafeUrl(d.profileLink)} target="_blank">Check out Profile</a></td>
+        {/* <td key={d.Id}>
+          <input type="button" style={{ marginTop: 10 }} value="Delete" onClick={deleteEmployee(d)} />
+        </td> */}
+      </tr>      
+      ));      
     setUserList(result.data);
   }
 
@@ -70,7 +69,7 @@ function Admin(props) {
 
   // get user list on page load
   useEffect(() => {        
-    if(user.isAdminUser){
+    if(user.IsAdmin){
       getUserList();
     }
   }, []);

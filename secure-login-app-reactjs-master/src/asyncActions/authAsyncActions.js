@@ -5,7 +5,7 @@ import {
   profileUpdateStarted, verifyProfileUpdateSuccess, profileUpdateFailure, 
   userGetStarted, userGetFailure, verifyGetUserSuccess
 } from "../actions/authActions";
-import { verifyTokenService, userLoginService, userLogoutService, userSignUpService } from '../services/auth';
+import { verifyTokenService, userLoginService, userLogoutService, userSignUpService, setAuthToken } from '../services/auth';
 import { userGetService, profileUpdateService } from '../services/user';
 
 // handle verify token
@@ -38,23 +38,29 @@ export const userLoginAsync = (username, password) => async dispatch => {
     return;
   }
 
-if(result.data!=null && result.data.isSuccessStatusCode)
-{
-  const userInfo = await userGetService(username);
-  if(userInfo.data!=null)
-  {
-    var user={
-      EmployeeName: userInfo.data.employeeName,
-      Email:userInfo.data.email,
-      PAN: userInfo.data.pan,
-      Password: userInfo.data.password,
-      ProfilePicture: userInfo.data.profilePicture,
-      ProfileLink: userInfo.data.profileLink,
-      IsAdmin: userInfo.data.isAdmin
-    }
-    var data={ token:result.data.requestMessage.headers[1].Value[0], expiredAt:null, user:user}
-  dispatch(verifyUserSuccess(data));
-}
+  if(result.data!=null && result.data.isSuccessStatusCode)
+  {    
+      var user={      
+        Email:username       
+      }
+    var data={ token:result.data.headers[0].Value[0], expiredAt:null, user:user}
+    setAuthToken(data.token);
+    
+    const userInfo = await userGetService(username);
+    if(userInfo.data!=null)
+    {
+      var user={
+        EmployeeName: userInfo.data.employeeName,
+        Email:userInfo.data.email,
+        PAN: userInfo.data.pan,
+        Password: userInfo.data.password,
+        ProfilePicture: userInfo.data.profilePicture,
+        ProfileLink: userInfo.data.profileLink,
+        IsAdmin: userInfo.data.isAdmin
+      }
+      var data={ token:result.data.headers[0].Value[0], expiredAt:null, user:user}
+    dispatch(verifyUserSuccess(data));
+  }
 }
   
 }
