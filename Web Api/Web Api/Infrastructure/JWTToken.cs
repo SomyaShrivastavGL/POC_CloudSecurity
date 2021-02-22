@@ -19,6 +19,7 @@ namespace Web_Api.Infrastructure
         private const string Header_Issuer = "iss";
         private const string Header_Audience = "aud";
         private const string Header_TimeOut = "to";
+        private const string IS_ADMIN = "isad";
         public const string JWT_ID = "JWT";
         public const string Authorization = "Authorization";
         private byte[] signKeyBytes;
@@ -104,6 +105,18 @@ namespace Web_Api.Infrastructure
             set
             {
                 UpdateClaim(Header_TimeOut, value);
+            }
+        }
+
+        public bool IsAdmin
+        {
+            get
+            {
+                return this.mClaims.ContainsKey(IS_ADMIN) ? Convert.ToBoolean(this.mClaims[IS_ADMIN]) : false;
+            }
+            set
+            {
+                UpdateClaim(IS_ADMIN, value.ToString());
             }
         }
 

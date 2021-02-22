@@ -36,6 +36,10 @@ namespace Web_Api.Handlers
                  new List<string>() { HttpMethod.Post.Method }
             },
             {
+                 "/api/AuthToken",
+                 new List<string>() { HttpMethod.Post.Method }                
+            },
+            {
                  "/weatherforecast",
                  new List<string>() { HttpMethod.Get.Method }
             }
@@ -84,8 +88,10 @@ namespace Web_Api.Handlers
                     try
                     {
                         var hmacKey = AESServices.UserHmacKey(Constants.UserNumber, 3);
+                        //var hmacKey = AESServices.UserHmacKey(TokenService.userNumber, 3);
                         //var t = token.AESStringDecryption(Constants.UserNumber);
                         oJwt = JWTToken.ParseJwtToken(token.AESStringDecryption(Constants.UserNumber), ref hmacKey);
+                        //oJwt = JWTToken.ParseJwtToken(token.AESStringDecryption(TokenService.userNumber), ref hmacKey);
 
                         // Set Principal and store JWT
                         ClaimsIdentity id = new ClaimsIdentity(oJwt.Claims, JWTToken.JWT_ID);
