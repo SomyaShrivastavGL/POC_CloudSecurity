@@ -35,13 +35,39 @@ namespace Web_Api.Handlers
                  "/api/user/AddEmployee",
                  new List<string>() { HttpMethod.Post.Method }
             },
-            {
-                 "/api/AuthToken",
-                 new List<string>() { HttpMethod.Post.Method }                
-            },
+           
             {
                  "/weatherforecast",
                  new List<string>() { HttpMethod.Get.Method }
+            }
+        };
+        private Dictionary<string, List<string>> _userDictionary = new Dictionary<string, List<string>>()
+        {
+
+            {
+                 "/api/User/GetEmployee",
+                 new List<string>() { HttpMethod.Get.Method }
+            },
+            {
+                 "/api/User/GetEmployees",
+                 new List<string>() { HttpMethod.Get.Method }
+            },
+            {
+                 "/api/User/UpdateEmployee",
+                 new List<string>() { HttpMethod.Post.Method }
+            },
+            {
+                 "/api/User/AddEmployee",
+                 new List<string>() { HttpMethod.Post.Method }
+            }
+        };
+
+        private Dictionary<string, List<string>> _adminDictionary = new Dictionary<string, List<string>>()
+        {
+           
+            {
+                 "/api/User/DeleteEmployee",
+                 new List<string>() { HttpMethod.Post.Method }
             }
         };
 
@@ -98,10 +124,26 @@ namespace Web_Api.Handlers
                         id.BootstrapContext = oJwt;
                         ClaimsPrincipal principal = new ClaimsPrincipal(id);
                         Thread.CurrentPrincipal = new ClaimsPrincipal(id);
+                        var x = id.Claims.Where(x=>x.Type== "i�ad").First();
+                        if (x.Value.Contains("Fal�e"))
+                        {
+                            var checkUser = _userDictionary.ContainsKey(context.Request.Path.Value);
+                            if (!checkUser)
+                            {
+                                throw new Exception("You don't have rights for this method.");
+                            }
+                        }
+                        else
+                        {
+                            var checkAdmin = _adminDictionary.ContainsKey(context.Request.Path.Value);
+                            if (!checkAdmin) {
+                                throw new Exception("You don't have rights for this method.");
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception("Session Not Found" + ex.Message);
+                        throw new Exception(ex.Message);
                     }
                 }
                 await _next(context);

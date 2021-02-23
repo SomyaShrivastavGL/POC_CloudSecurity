@@ -62,6 +62,14 @@ namespace Business_Api.Controllers
             return user;
         }
 
+        [HttpPost("DeleteEmployeeInfo")]
+        public async Task<ActionResult<int>> DeleteEmployee(string email)
+        {
+            Employee employee = new Employee();
+            employee.Email = email;
+            return await _employeeRepo.Delete(employee);
+        }
+
         [HttpPost("LoginEmployee")]
         public async Task<ActionResult<HttpStatusCode>> LoginEmployee(Users user)
         {

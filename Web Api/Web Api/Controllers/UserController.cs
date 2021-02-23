@@ -65,6 +65,31 @@ namespace Web_Api.Controllers
             var returnItems = Newtonsoft.Json.JsonConvert.DeserializeObject<Users>(returnResult);
             return returnItems;
         }
+
+        [HttpPost("DeleteEmployee")]
+        public int DeleteEmployee(string email)
+        {
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(string.Format(businessurl + "DeleteEmployeeInfo?email={0}", email));
+            webRequest.ContentType = "application/x-www-form-urlencoded";
+            webRequest.Headers.Add("Authorization", "Basic aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw");
+            webRequest.Method = WebRequestMethods.Http.Post;
+            webRequest.AllowAutoRedirect = true;
+            webRequest.Proxy = null;
+            string data = "email=" + email;
+            byte[] dataStream = Encoding.UTF8.GetBytes(data);
+            webRequest.ContentLength = dataStream.Length;
+            Stream newStream = webRequest.GetRequestStream();
+            newStream.Write(dataStream, 0, dataStream.Length);
+            newStream.Close();
+
+            HttpWebResponse responses = (HttpWebResponse)webRequest.GetResponse();
+            Stream stream = responses.GetResponseStream();
+            StreamReader streamreader = new StreamReader(stream);
+            string returnResult = streamreader.ReadToEnd();
+
+            var returnItems = Newtonsoft.Json.JsonConvert.DeserializeObject<int>(returnResult);
+            return returnItems;
+        }
         [HttpGet("GetEmployees")]
         public IEnumerable<Employee> GetEmployees()
         {
