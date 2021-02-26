@@ -64,7 +64,10 @@ namespace Web_Api.Handlers
 
         private Dictionary<string, List<string>> _adminDictionary = new Dictionary<string, List<string>>()
         {
-           
+            {
+                 "/api/User/GetEmployees",
+                 new List<string>() { HttpMethod.Get.Method }
+            },
             {
                  "/api/User/DeleteEmployee",
                  new List<string>() { HttpMethod.Post.Method }
