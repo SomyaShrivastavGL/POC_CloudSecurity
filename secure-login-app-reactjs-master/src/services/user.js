@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const API_URL = 'https://localhost:5001/api';
 
 
+const apiUrl =  process.env.REACT_APP_API_URL;
 // get list of the users
 export const getUserListService = async () => {
   try {
-    return await axios.get(`${API_URL}/user/GetEmployees`);
+    return await axios.get(`${apiUrl}/user/GetEmployees`);
   } catch (err) {    
     return {
       error: true,
@@ -18,7 +18,7 @@ export const getUserListService = async () => {
 // get user API 
 export const userGetService = async (email) => {
   try {
-    return await axios.get(`${API_URL}/user/GetEmployee`, { params: {
+    return await axios.get(`${apiUrl}/user/GetEmployee`, { params: {
         email: email
       }}  );
   } catch (err) {    
@@ -36,7 +36,7 @@ export const userGetService = async (email) => {
 // user login API to validate the credential
 export const profileUpdateService = async (user) => {
   try {    
-    return await axios.post(`${API_URL}/user/UpdateEmployee`, user );
+    return await axios.post(`${apiUrl}/user/UpdateEmployee`, user );
   } catch (err) {      
     if( err.response == null || err.response == undefined )
     {

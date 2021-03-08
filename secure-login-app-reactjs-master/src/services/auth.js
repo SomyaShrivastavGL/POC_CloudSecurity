@@ -1,9 +1,10 @@
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
-const API_URL = 'https://localhost:5001/api';
 
-  
+
+const apiUrl =  process.env.REACT_APP_API_URL;
+
 //axios.defaults.headers.common['Access-Control-Allow-Origin'] = `http://localhost:3000`; 
 // set token to the axios
 export const setAuthToken = token => {
@@ -39,7 +40,7 @@ export const userLoginService = async (username, password) => {
       Email:username,
       Password:password
     }
-    return await axios.post(`${API_URL}/AuthToken`, user);
+    return await axios.post(`${apiUrl}/AuthToken`, user);
   } catch (err) {        
     if( err.response == null || err.response == undefined )
     {
@@ -56,7 +57,7 @@ export const userLoginService = async (username, password) => {
 export const userSignUpService = async (user) => {
   try {
     user.ProfilePicture =null;
-    return await axios.post(`${API_URL}/user/AddEmployee`,  user);
+    return await axios.post(`${apiUrl}/user/AddEmployee`,  user);
   } catch (err) {      
     if( err.response == null || err.response == undefined )
     {
@@ -72,7 +73,7 @@ export const userSignUpService = async (user) => {
 // manage user logout
 export const userLogoutService = async () => {
   try {
-    return await axios.post(`${API_URL}/users/logout`);
+    return await axios.post(`${apiUrl}/users/logout`);
   } catch (err) {
     return {
       error: true,
