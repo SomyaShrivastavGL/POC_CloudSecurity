@@ -18,13 +18,16 @@ namespace Web_Api.Controllers
     [ApiController]
     public class AuthenticationController : Controller
     {
+        UserController userController;
+        public AuthenticationController()
+        {
+            userController = new UserController();
+        }
+
         [HttpPost]
         [Route("api/AuthToken")]
         public HttpResponseMessage AuthenticatedToken(Users user)
         {
-            UserController userController = new UserController();
-            //var isUserValid = userController.CheckUser(user);
-           
             var response = new HttpResponseMessage();
             try
             {
@@ -51,33 +54,37 @@ namespace Web_Api.Controllers
         }
 
         [HttpPost]
-        [Route("refresh")]
-        public IActionResult Refresh(WebApiToken tokenApiModel)
+        [Route("api/refresh")]
+        public HttpResponseMessage Refresh(WebApiToken tokenApiModel)
         {
             if (tokenApiModel is null)
             {
-                return BadRequest("Invalid client request");
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
             var accessToken = tokenApiModel.expiredToken;
             string refreshToken = tokenApiModel.refreshToken;
             var tokenService = new TokenService();
             var principal = tokenService.GetPrincipalFromExpiredToken(accessToken);
-            var userName = principal.Identity.Name; //this is mapped to the Name claim by default
-            //var user = userContext.LoginModels.SingleOrDefault(u => u.UserName == username);
-            //if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+            //var userName = principal.Identity.Name; //this is mapped to the Name claim by default
+            var claims = ((System.Security.Claims.ClaimsIdentity)principal.Identity).Claims.ToList();
+            var userName = claims[1].Value;
+            var userIsAdmin = Convert.ToBoolean(claims[6].Value);
+            var userEmail = claims[2].Value;
+
+            var user = userController.GetAuthorizationEmployee(userEmail);
+
+            //if (user == null || user.RefreshToken != refreshToken)
             //{
             //    return BadRequest("Invalid client request");
             //}
-            //var newAccessToken = tokenService.GenerateAccessToken(principal.Claims);
-            var newAccessToken = tokenService.GenerateJWT(new Users { EmployeeName= userName});
-            var newRefreshToken = tokenService.GenerateRefreshToken();
-            //user.RefreshToken = newRefreshToken;
+
+            var token = tokenService.GenerateJWT(new Users { EmployeeName= userName, Email= userEmail, IsAdmin = userIsAdmin});
             //userContext.SaveChanges();
-            return new ObjectResult(new
-            {
-                accessToken = newAccessToken,
-                refreshToken = newRefreshToken
-            });
+            var response = new HttpResponseMessage();
+            response.StatusCode = HttpStatusCode.OK;
+            response.Headers.Add(JWTToken.Authorization, token.accessToken.ToString().AESStringEncryption(Constants.UserNumber));
+            response.Headers.Add("RefreshToken", token.refreshToken);
+            return response;
         }
     }
 }

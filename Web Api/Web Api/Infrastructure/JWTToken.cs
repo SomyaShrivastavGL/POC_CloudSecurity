@@ -189,7 +189,7 @@ namespace Web_Api.Infrastructure
             var jwt = new JWTToken();
             jwt.symmetricSignatureKeyString = SignatureKey;
             jwt.mClaims = JsonConvert.DeserializeObject<Dictionary<string, string>>(claims);
-
+            
             using (var HMAC = new HMACSHA256(Convert.FromBase64String(SignatureKey)))
             {
                 var data = String.Format("{0}.{1}", parts[0], parts[1].Trim(System.Convert.ToChar("=")));

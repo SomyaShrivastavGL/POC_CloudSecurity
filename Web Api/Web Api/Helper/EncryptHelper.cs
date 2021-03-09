@@ -21,7 +21,7 @@ namespace Web_Api.Helper
 
         public static byte[] ToByteArray(this string input)
         {
-            input = input.Replace('c', '+').Replace('_', '/');
+            input = input.Replace('-', '+').Replace('_', '/');
             var pad = 4 - (input.Length % 4);
             pad = pad > 2 ? 0 : pad;
             input = input.PadRight(input.Length + pad, '=');
@@ -30,7 +30,7 @@ namespace Web_Api.Helper
 
         public static byte[] ToByteArray(this string input, ref string input1)
         {
-            input = input.Replace('c', '+').Replace('_', '/');
+            input = input.Replace('-', '+').Replace('_', '/');
             var pad = 4 - (input.Length % 4);
             pad = pad > 2 ? 0 : pad;
             input = input.PadRight(input.Length + pad, '=');

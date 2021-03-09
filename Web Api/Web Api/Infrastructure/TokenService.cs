@@ -19,6 +19,7 @@ namespace Web_Api.Infrastructure
             var jwtToken = new JWTToken();
             jwtToken.AddClaim(ClaimTypes.NameIdentifier, "CPOC");
             jwtToken.AddClaim(ClaimTypes.Name, user.EmployeeName);
+            jwtToken.AddClaim(ClaimTypes.Email, user.Email);
             jwtToken.Issuer = Constants.Issuer;
             jwtToken.Audience = Constants.Audience;
             jwtToken.TimeOut = "10";
