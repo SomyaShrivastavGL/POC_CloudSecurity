@@ -14,6 +14,7 @@ using System.Web;
 using Web_Api.Controllers;
 using Web_Api.Helper;
 using Web_Api.Infrastructure;
+using Web_Api.Models;
 using Web_Api.Security;
 
 namespace Web_Api.Handlers
@@ -41,42 +42,7 @@ namespace Web_Api.Handlers
                  new List<string>() { HttpMethod.Get.Method }
             }
         };
-        private Dictionary<string, List<string>> _userDictionary = new Dictionary<string, List<string>>()
-        {
 
-            {
-                 "/api/User/GetEmployee",
-                 new List<string>() { HttpMethod.Get.Method }
-            },
-            {
-                 "/api/user/AddEmployee",
-                 new List<string>() { HttpMethod.Post.Method }
-            },
-            {
-                 "/api/User/GetEmployees",
-                 new List<string>() { HttpMethod.Get.Method }
-            },
-            {
-                 "/api/User/UpdateEmployee",
-                 new List<string>() { HttpMethod.Post.Method }
-            },
-            {
-                 "/api/User/AddEmployee",
-                 new List<string>() { HttpMethod.Post.Method }
-            }
-        };
-
-        private Dictionary<string, List<string>> _adminDictionary = new Dictionary<string, List<string>>()
-        {
-            {
-                 "/api/User/GetEmployees",
-                 new List<string>() { HttpMethod.Get.Method }
-            },
-            {
-                 "/api/User/DeleteEmployee",
-                 new List<string>() { HttpMethod.Post.Method }
-            }
-        };
 
         private readonly RequestDelegate _next;
         public AuthenticationHandler(RequestDelegate next)
@@ -131,19 +97,28 @@ namespace Web_Api.Handlers
                         id.BootstrapContext = oJwt;
                         ClaimsPrincipal principal = new ClaimsPrincipal(id);
                         Thread.CurrentPrincipal = new ClaimsPrincipal(id);
-                        var x = id.Claims.Where(x=>x.Type== "i�ad").First();
-                        if (x.Value.Contains("Fal�e"))
+                        var x = id.Claims.Where(x=>x.Type== "isad").First();
+                        if (x.Value.Contains("False"))
                         {
-                            var checkUser = _userDictionary.ContainsKey(context.Request.Path.Value);
-                            if (!checkUser)
+                            var routeValue = context.Request.Path.Value.Split("/").Last();
+                            string value = Permissions.GetUserPermission(routeValue);
+                            string userValue = Permissions.GetEmployeeDirectory("User");
+                            var checkAccess = Bitwise.IsAttributeInCombination(long.Parse(userValue), long.Parse(value));
+
+                            if (!checkAccess)
                             {
                                 throw new Exception("You don't have rights for this method.");
                             }
                         }
                         else
                         {
-                            var checkAdmin = _adminDictionary.ContainsKey(context.Request.Path.Value);
-                            if (!checkAdmin) {
+                            var routeValue = context.Request.Path.Value.Split("/").Last();
+                            string value = Permissions.GetAdminPermission(routeValue);
+                            string userValue = Permissions.GetEmployeeDirectory("Admin");
+                            var checkAccess = Bitwise.IsAttributeInCombination(long.Parse(userValue), long.Parse(value));
+
+                            if (!checkAccess)
+                            {
                                 throw new Exception("You don't have rights for this method.");
                             }
                         }

@@ -35,13 +35,11 @@ namespace Business_Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            if (env.IsDevelopment())
             {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor |
-            ForwardedHeaders.XForwardedProto
-            });
+                app.UseDeveloperExceptionPage();
+            }
 
-            app.UseMiddleware<ExceptionMiddleware>();
 
 
             app.UseHttpsRedirection();
