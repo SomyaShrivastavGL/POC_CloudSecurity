@@ -20,6 +20,7 @@ namespace Web_Api.Infrastructure
         private const string Header_Audience = "aud";
         private const string Header_TimeOut = "to";
         private const string IS_ADMIN = "isad";
+        private const string ROLE = "role";
         public const string JWT_ID = "JWT";
         public const string Authorization = "Authorization";
         private byte[] signKeyBytes;
@@ -121,6 +122,17 @@ namespace Web_Api.Infrastructure
         }
 
 
+        public string UserRole
+        {
+            get
+            {
+                return this.mClaims.ContainsKey(ROLE) ? this.mClaims[ROLE] : string.Empty;
+            }
+            set
+            {
+                UpdateClaim(ROLE, value);
+            }
+        }
         public string symmetricSignatureKeyString {
             get { return Convert.ToBase64String(signKeyBytes); }
             set { signKeyBytes = Convert.FromBase64String(value); }

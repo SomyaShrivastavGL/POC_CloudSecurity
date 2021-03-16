@@ -23,6 +23,7 @@ namespace Web_Api.Infrastructure
             jwtToken.Issuer = Constants.Issuer;
             jwtToken.Audience = Constants.Audience;
             jwtToken.TimeOut = "10";
+            jwtToken.UserRole = user.Role;
             jwtToken.IsAdmin = user.IsAdmin;
             jwtToken.symmetricSignatureKeyString = AESServices.UserHmacKey(Constants.UserNumber, 3);
             var webApiToken = new WebApiToken();

@@ -98,12 +98,12 @@ namespace Web_Api.Handlers
                         ClaimsPrincipal principal = new ClaimsPrincipal(id);
                         Thread.CurrentPrincipal = new ClaimsPrincipal(id);
                         var x = id.Claims.Where(x=>x.Type== "isad").First();
+                        var role= id.Claims.Where(x => x.Type == "role").First();
                         if (x.Value.Contains("False"))
                         {
                             var routeValue = context.Request.Path.Value.Split("/").Last();
-                            string value = Permissions.GetUserPermission(routeValue);
-                            string userValue = Permissions.GetEmployeeDirectory("User");
-                            var checkAccess = Bitwise.IsAttributeInCombination(long.Parse(userValue), long.Parse(value));
+                            string value = Permissions.GetPermission(routeValue);
+                            var checkAccess = Bitwise.IsAttributeInCombination(long.Parse(value),long.Parse(role.Value));
 
                             if (!checkAccess)
                             {
@@ -113,9 +113,8 @@ namespace Web_Api.Handlers
                         else
                         {
                             var routeValue = context.Request.Path.Value.Split("/").Last();
-                            string value = Permissions.GetAdminPermission(routeValue);
-                            string userValue = Permissions.GetEmployeeDirectory("Admin");
-                            var checkAccess = Bitwise.IsAttributeInCombination(long.Parse(userValue), long.Parse(value));
+                            string value = Permissions.GetPermission(routeValue);
+                            var checkAccess = Bitwise.IsAttributeInCombination(long.Parse(value), long.Parse(role.Value));
 
                             if (!checkAccess)
                             {

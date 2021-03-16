@@ -11,6 +11,7 @@ namespace Models.Data
         public Boolean IsAdmin { get; set; }
         [Key]
         public string Email { get; set; }
+        public string Role { get; set; }
         public byte[] Password { get; set; }
         public string ProfilePicturePath { get; set; }
         public string LastUpdateComment { get; set; }

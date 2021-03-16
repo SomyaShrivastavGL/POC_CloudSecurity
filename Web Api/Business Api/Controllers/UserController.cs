@@ -58,6 +58,7 @@ namespace Business_Api.Controllers
             user.LastUpdateComment = employeeDetail.LastUpdateComment;
             user.ProfileLink = employeeDetail.ProfileLink;
             user.IsAdmin = employeeDetail.IsAdmin;
+            user.Role = employeeDetail.Role;
 
             return user;
         }
@@ -99,6 +100,13 @@ namespace Business_Api.Controllers
                 employee.CreationTimeStamp = DateTime.UtcNow;
                 employee.IsActive = true;
                 employee.IsLocked = false;
+                employee.IsAdmin = user.IsAdmin;
+                if (user.IsAdmin) {
+                    employee.Role = "18";
+                }
+                else
+                    employee.Role = "15";
+
                 employee.PAN = EncryptedPassword(user.PAN); 
                 employee.ProfilePicturePath = user.ProfilePicture;
                 employee.LastUpdateComment = user.LastUpdateComment;

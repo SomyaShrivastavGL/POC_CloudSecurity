@@ -15,6 +15,7 @@ namespace Business_Api.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PAN = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     IsAdmin = table.Column<bool>(type: "bit", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     ProfilePicturePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastUpdateComment = table.Column<string>(type: "nvarchar(max)", nullable: true),

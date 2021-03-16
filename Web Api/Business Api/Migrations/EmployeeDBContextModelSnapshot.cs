@@ -57,6 +57,9 @@ namespace Business_Api.Migrations
                     b.Property<string>("ProfilePicturePath")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("UpdateTimeStamp")
                         .HasColumnType("datetime2");
 

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Business_Api.Migrations
 {
     [DbContext(typeof(EmployeeDBContext))]
-    [Migration("20210309064551_abc")]
+    [Migration("20210315103903_abc")]
     partial class abc
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,6 +57,9 @@ namespace Business_Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProfilePicturePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdateTimeStamp")
