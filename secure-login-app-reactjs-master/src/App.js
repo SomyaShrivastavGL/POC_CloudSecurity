@@ -11,8 +11,11 @@ import PublicRoute from './routes/PublicRoute';
 
 import { verifyTokenAsync } from './asyncActions/authAsyncActions';
 import Admin from './pages/Admin';
+import { Helmet } from 'react-helmet';
+import {CSP_CONTENT} from './constants';
 
 function App() {
+  const csp_content = CSP_CONTENT+process.env.REACT_APP_API_URL;
   
   const authObj = useSelector(state => state.auth);
   const dispatch = useDispatch();
@@ -30,7 +33,11 @@ function App() {
   }
 
   return (
+    
     <div className="App">
+      <Helmet>     
+      <meta http-equiv="Content-Security-Policy" content={csp_content} />
+      </Helmet>
       <BrowserRouter>
         <div>
         <div className="header heading centerText">

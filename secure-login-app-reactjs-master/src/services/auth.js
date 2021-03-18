@@ -3,7 +3,7 @@ axios.defaults.withCredentials = true;
 
 
 
-const apiUrl =  process.env.REACT_APP_API_URL;
+const apiUrl =  process.env.REACT_APP_API_URL+'api';
 
 //axios.defaults.headers.common['Access-Control-Allow-Origin'] = `http://localhost:3000`; 
 // set token to the axios

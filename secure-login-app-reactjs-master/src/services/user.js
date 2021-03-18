@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 
-const apiUrl =  process.env.REACT_APP_API_URL;
+const apiUrl =  process.env.REACT_APP_API_URL+'api';
 // get list of the users
 export const getUserListService = async () => {
   try {
