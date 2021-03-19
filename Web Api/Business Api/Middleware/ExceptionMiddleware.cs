@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Business_Api.Middleware
@@ -21,14 +22,18 @@ namespace Business_Api.Middleware
         {
             try
             {
+                var body = context.Request.Body;
+                var buffer = new byte[(int)(context.Request.ContentLength??0)];
                 context.Request.EnableBuffering();
+
                 if (context.Request.Body.CanSeek)
                     context.Request.Body.Seek(0, SeekOrigin.Begin);
-                string rawRequest;
-                using (var reader = new StreamReader(context.Request.Body))
-                    rawRequest = await reader.ReadToEndAsync();
+                await context.Request.Body.ReadAsync(buffer, 0, buffer.Length);
+                var bodyAsText = Encoding.UTF8.GetString(buffer);
+                context.Request.Body = body;
+
                 Log.Information($"Request received on: {context.Request.Path} from {context.Request.HttpContext.Connection.RemoteIpAddress}");
-                Log.Verbose($"Raw Request: {rawRequest}");
+                Log.Verbose($"Raw Request: {bodyAsText}");
                 
                 await _next(context);
             }
