@@ -40,6 +40,14 @@ namespace Web_Api.Handlers
             {
                  "/weatherforecast",
                  new List<string>() { HttpMethod.Get.Method }
+            },
+            {
+                 "/api/User/AddEmployee",
+                 new List<string>() { HttpMethod.Post.Method }
+            },
+            {
+                 "/api/User/Login",
+                 new List<string>() { HttpMethod.Post.Method }
             }
         };
 
