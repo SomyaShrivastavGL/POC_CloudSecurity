@@ -54,7 +54,7 @@ namespace Web_Api
                 ForwardedHeaders.XForwardedProto
             });
 
-            app.UseMiddleware<ExceptionMiddleware>();
+            //app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseCors(AllowSpecificPolicy);

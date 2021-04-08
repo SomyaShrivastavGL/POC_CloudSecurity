@@ -1,1 +1,1 @@
-export const CSP_CONTENT = "default-src 'self'; style-src 'self'  'unsafe-inline'; font-src 'self' ; connect-src 'self' "
+export const CSP_CONTENT = "default-src 'self'; style-src 'self'  'unsafe-inline'; font-src 'self'  ; connect-src 'self' 'unsafe-inline' "

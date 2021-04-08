@@ -44,25 +44,36 @@ namespace Web_Api.Controllers
         [HttpGet("GetEmployee")]
         public Users GetEmployee(string email) 
         {
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(string.Format(businessurl + "GetEmployeeInfo?email={0}", email));
-            webRequest.ContentType = "application/x-www-form-urlencoded";
-            webRequest.Headers.Add("Authorization", "Basic aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw");
-            webRequest.Method = WebRequestMethods.Http.Post;
-            webRequest.AllowAutoRedirect = true;
-            webRequest.Proxy = null;
-            string data = "email="+email;
-            byte[] dataStream = Encoding.UTF8.GetBytes(data);
-            webRequest.ContentLength = dataStream.Length;
-            Stream newStream = webRequest.GetRequestStream();
-            newStream.Write(dataStream, 0, dataStream.Length);
-            newStream.Close();
+            var returnItems = new Users();
+            try
+            {
+                
+                HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(string.Format(businessurl + "GetEmployeeInfo?email={0}", email));
+                webRequest.ContentType = "application/x-www-form-urlencoded";
+                webRequest.Headers.Add("Authorization", "Basic aGFyam90LnNpbmdoQGdtYWlsLmNvbToxMjM0NTY3ODkw");
+                webRequest.Method = WebRequestMethods.Http.Post;
+                webRequest.AllowAutoRedirect = true;
+                webRequest.Proxy = null;
+                string data = "email=" + email;
+                byte[] dataStream = Encoding.UTF8.GetBytes(data);
+                webRequest.ContentLength = dataStream.Length;
+                Stream newStream = webRequest.GetRequestStream();
+                newStream.Write(dataStream, 0, dataStream.Length);
+                newStream.Close();
 
-            HttpWebResponse responses = (HttpWebResponse)webRequest.GetResponse();
-            Stream stream = responses.GetResponseStream();
-            StreamReader streamreader = new StreamReader(stream);
-            string returnResult = streamreader.ReadToEnd();
+                HttpWebResponse responses = (HttpWebResponse)webRequest.GetResponse();
+                Stream stream = responses.GetResponseStream();
+                StreamReader streamreader = new StreamReader(stream);
+                string returnResult = streamreader.ReadToEnd();
+           
 
-            var returnItems = Newtonsoft.Json.JsonConvert.DeserializeObject<Users>(returnResult);
+             returnItems = Newtonsoft.Json.JsonConvert.DeserializeObject<Users>(returnResult);
+            
+            }
+            catch (WebException ex)
+            {
+                string message = new StreamReader(ex.Response.GetResponseStream()).ReadToEnd();
+            }
             return returnItems;
         }
 

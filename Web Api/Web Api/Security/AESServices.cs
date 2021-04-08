@@ -102,7 +102,7 @@ namespace Web_Api.Security
                 }
             }
         }
-
+       
         public static string AESDataDecryption(string data, int SetID = 1, int UserNo = -1)
         {
             StringBuilder Key = new StringBuilder();
@@ -120,8 +120,10 @@ namespace Web_Api.Security
                 aesCryptoserviceProvider.IV = HexToByteArray(InitVector.ToString());
                 aesCryptoserviceProvider.Mode = CipherMode.CBC;
                 aesCryptoserviceProvider.Padding = PaddingMode.ISO10126;
+                data=data.Replace("Bearer ","");
+ 
 
-                var inBytes = Convert.FromBase64String(data);
+                 var inBytes = Convert.FromBase64String(data);
                 MemoryStream memoryStream = null;
                 CryptoStream cryptoStream = null;
                 try
