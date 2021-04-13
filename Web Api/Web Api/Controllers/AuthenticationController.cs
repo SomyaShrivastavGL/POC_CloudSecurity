@@ -11,6 +11,7 @@ using Web_Api.Infrastructure;
 using Web_Api.Helper;
 using Web_Api.Security;
 using Web_Api.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace Web_Api.Controllers
 {
@@ -19,9 +20,9 @@ namespace Web_Api.Controllers
     public class AuthenticationController : Controller
     {
         UserController userController;
-        public AuthenticationController()
+       public AuthenticationController(IConfiguration configurations)
         {
-            userController = new UserController();
+            userController = new UserController(configurations);
         }
 
         [HttpPost]
