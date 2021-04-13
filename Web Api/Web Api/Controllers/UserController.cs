@@ -19,7 +19,12 @@ namespace Web_Api.Controllers
     [ApiController]
     public class UserController:ControllerBase
     {
-        private string businessurl = "https://localhost:44394/api/User/";
+        private string businessurl;
+
+        public UserController(IConfiguration configurations)
+        {
+            businessurl = configurations.GetSection("BusinessUrl").Value + "/api/User/";            
+        }
 
         [HttpPost("Login")]
         public HttpResponseMessage LoginEmployee(Users user)
