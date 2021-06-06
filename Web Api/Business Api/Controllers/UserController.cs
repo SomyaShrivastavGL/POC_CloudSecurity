@@ -14,6 +14,8 @@ using Models.Data;
 using DBLayer.Repo.Interfaces;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
+using System.Drawing;
+
 namespace Business_Api.Controllers
 {
     //[Authorize]
@@ -137,7 +139,15 @@ namespace Business_Api.Controllers
                 employeeDetail.Email = user.Email;
                 employeeDetail.UpdateTimeStamp = DateTime.UtcNow;
                 employeeDetail.PAN = EncryptedPassword(user.PAN);
-                employeeDetail.ProfilePicturePath = user.ProfilePicture;
+                if (IsValidImage(user.ProfilePicture))
+                {
+                    employeeDetail.ProfilePicturePath = user.ProfilePicture;
+                }
+                else
+                {
+                    throw new ArgumentException("Profile Picture submitted is not valid.");
+                }
+                
                 employeeDetail.ProfileLink = user.ProfileLink;
                 employeeDetail.LastUpdateComment = user.LastUpdateComment;            
                 var hasUpdated = await _employeeRepo.Update(employeeDetail);
@@ -152,6 +162,25 @@ namespace Business_Api.Controllers
                 throw;
             }
             return 0;
+        }
+        private bool IsValidImage(string img)
+        {
+            try
+            {                
+                byte[] bytes = Convert.FromBase64String(img.Split(',')[1]);
+
+                System.Drawing.Image image;
+                using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    image = Image.FromStream(ms);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
         //yet to work on this
         [HttpPost("DeleteEmployee")]
