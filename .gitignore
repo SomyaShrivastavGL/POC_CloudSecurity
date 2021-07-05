@@ -7,3 +7,9 @@
 /Web Api/Models/obj
 /Web Api/Web Api/bin
 /Web Api/Web Api/obj
+/Web Api/Business Api/.config
+/Web Api/Services/bin/Debug/netcoreapp3.1
+/Web Api/Services/obj
+/Web Api/Business Api/Properties/PublishProfiles
+/Web Api/Business Api/Business Api.csproj.user
+/Web Api/Utility/obj

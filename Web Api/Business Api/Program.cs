@@ -1,12 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace Business_Api
 {
@@ -23,7 +19,13 @@ namespace Business_Api
             {
                 LoggerConfiguration.ReadFrom.Configuration(hostingcontxt.Configuration, "Serilog")
                 ;
-            }).ConfigureWebHostDefaults(webBuilder =>
+            }).ConfigureAppConfiguration((hostingContext, config) =>
+            {
+                config.SetBasePath(Directory.GetCurrentDirectory());
+                config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                config.AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true);
+            }).
+            ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
                 });

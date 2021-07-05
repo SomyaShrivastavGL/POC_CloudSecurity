@@ -26,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DBLayer\DBLayer.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\Services\Services.csproj" />
     <ProjectReference Include="..\Web Api\Web Api.csproj" />
   </ItemGroup>
 
